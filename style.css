@@ -1,0 +1,232 @@
+/* --- Color Palette & Variables --- */
+:root {
+    --bg-color: #faf9f6;        /* Warm Cream / Off-White */
+    --text-main: #2b2b2b;       /* Soft Charcoal */
+    --text-muted: #6e6e6e;      /* Neutral Gray */
+    --accent: #556b2f;          /* Dark Sage Green */
+    --card-bg: #f1f0ea;         /* Slightly darker tint for structural depth */
+    --max-width: 800px;
+}
+
+/* --- Base Resets & Layout --- */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-main);
+    line-height: 1.6;
+    padding-top: 80px; /* Space for the fixed header */
+}
+
+.container {
+    max-width: var(--max-width);
+    margin: 0 auto;
+    padding: 0 24px;
+}
+
+/* --- Navigation --- */
+header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background-color: rgba(250, 249, 246, 0.9); /* Translucent cream blur effect */
+    backdrop-filter: blur(8px);
+    z-index: 1000;
+}
+
+nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 70px;
+}
+
+.logo {
+    font-weight: 700;
+    font-size: 1.25rem;
+    letter-spacing: -0.5px;
+}
+
+.nav-links {
+    display: flex;
+    list-style: none;
+    gap: 24px;
+}
+
+.nav-links a {
+    text-decoration: none;
+    color: var(--text-main);
+    font-size: 0.95rem;
+    transition: color 0.2s ease;
+}
+
+.nav-links a:hover {
+    color: var(--accent);
+}
+
+/* --- Core Sections Layout --- */
+.section {
+    padding: 80px 0 40px 0;
+}
+
+.section-title {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 24px;
+    letter-spacing: -0.3px;
+    position: relative;
+}
+
+/* --- Hero --- */
+.hero {
+    padding: 100px 0 60px 0;
+}
+
+.hero h1 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    line-height: 1.2;
+    margin-bottom: 16px;
+    letter-spacing: -1px;
+}
+
+.hero p {
+    font-size: 1.2rem;
+    color: var(--text-muted);
+}
+
+/* --- About --- */
+.about-content p {
+    margin-bottom: 16px;
+    color: var(--text-main);
+}
+
+/* --- Projects --- */
+.project-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.project-card {
+    background-color: var(--card-bg);
+    padding: 32px;
+    border-radius: 4px; /* Subtle radius keeping code geometric and clean */
+}
+
+.project-card h3 {
+    font-size: 1.25rem;
+    margin-bottom: 12px;
+}
+
+.project-card p {
+    color: var(--text-muted);
+    font-size: 0.95rem;
+    margin-bottom: 20px;
+}
+
+.project-links {
+    display: flex;
+    gap: 20px;
+}
+
+.project-links a {
+    text-decoration: none;
+    color: var(--text-main);
+    font-size: 0.9rem;
+    font-weight: 500;
+    transition: color 0.2s ease;
+}
+
+.project-links a:hover {
+    color: var(--accent);
+}
+
+/* --- Contact --- */
+#contact p {
+    color: var(--text-muted);
+    margin-bottom: 24px;
+}
+
+.email-btn {
+    display: inline-block;
+    text-decoration: none;
+    color: var(--bg-color);
+    background-color: var(--text-main);
+    padding: 12px 24px;
+    font-size: 0.95rem;
+    font-weight: 500;
+    border-radius: 4px;
+    transition: background-color 0.2s ease;
+    margin-bottom: 32px;
+}
+
+.email-btn:hover {
+    background-color: var(--accent);
+}
+
+.socials {
+    display: flex;
+    gap: 20px;
+}
+
+.socials a {
+    text-decoration: none;
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    transition: color 0.2s ease;
+}
+
+.socials a:hover {
+    color: var(--accent);
+}
+
+/* --- Footer --- */
+footer {
+    padding: 60px 0 40px 0;
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    border-top: 1px solid var(--card-bg);
+    margin-top: 60px;
+}
+
+/* --- Responsive Adaptations --- */
+@media (max-width: 600px) {
+    .hero h1 {
+        font-size: 2rem;
+    }
+    .project-card {
+        padding: 24px;
+    }
+}
+
+/* --- JavaScript Interaction Styles --- */
+
+/* Active link indicator */
+.nav-links a.active-nav {
+    color: var(--accent);
+    font-weight: 600;
+}
+
+/* Scroll Reveal States */
+.reveal-hidden {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.6s cubic-bezier(0.215, 0.610, 0.355, 1), 
+                transform 0.6s cubic-bezier(0.215, 0.610, 0.355, 1);
+}
+
+.reveal-visible {
+    opacity: 1;
+    transform: translateY(0);
+}
