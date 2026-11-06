@@ -4,14 +4,21 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Portfolio | Minimal Template</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
+    <video class="bg-video" autoplay muted loop playsinline aria-hidden="true" tabindex="-1">
+        <source src="assets/bg/minecraft-dog.3840x2160.mp4" type="video/mp4">
+    </video>
+
     <!-- Header / Navigation -->
     <header>
         <nav class="container">
-            <div class="logo">YourName.</div>
+            <img src="assets/Redcube.png" alt="Redcube logo" class="logo">
             <ul class="nav-links">
                 <li><a href="#about">About</a></li>
                 <li><a href="#projects">Projects</a></li>
@@ -23,8 +30,8 @@
     <main class="container">
         <!-- Hero Section -->
         <section class="hero">
-            <h1>Hi, I am a developer crafting clean digital experiences.</h1>
-            <p>Focused on simplicity, functionality, and modern web standards.</p>
+            <h1>Hi, I am GabzTRT. Welcome to my side of the block!⚔️⚒️⛏️</h1>
+            <p>Focused on simplicity, functionality, and CRAFTING experiences.</p>
         </section>
 
         <!-- About Section -->
@@ -71,9 +78,43 @@
             <div class="contact-links">
                 <a href="mailto:your.email@example.com" class="email-btn">your.email@example.com</a>
                 <div class="socials">
-                    <a href="#" target="_blank">GitHub</a>
-                    <a href="#" target="_blank">LinkedIn</a>
-                    <a href="#" target="_blank">Twitter</a>
+                    <a href="#" target="_blank" aria-label="GitHub">
+                        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                            <path fill="currentColor" d="M12 .75a11.25 11.25 0 0 0-3.56 21.92c.56.1.77-.24.77-.54v-2.1c-3.14.68-3.8-1.33-3.8-1.33-.5-1.3-1.22-1.65-1.22-1.65-.99-.68.08-.67.08-.67 1.1.08 1.68 1.13 1.68 1.13.98 1.68 2.56 1.2 3.18.92.1-.71.38-1.2.7-1.48-2.5-.28-5.13-1.25-5.13-5.56 0-1.23.44-2.23 1.13-3.02-.11-.28-.49-1.43.11-2.98 0 0 .92-.3 3.1 1.15a10.8 10.8 0 0 1 5.64 0c2.15-1.45 3.08-1.15 3.08-1.15.61 1.55.23 2.7.12 2.98.7.79 1.12 1.79 1.12 3.02 0 4.32-2.64 5.27-5.15 5.55.4.35.75 1.03.75 2.08v3.11c0 .3.2.65.78.54A11.25 11.25 0 0 0 12 .75Z"/>
+                        </svg>
+                    </a>
+                    <a href="#" target="_blank" aria-label="LinkedIn">
+                        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                            <path fill="currentColor" d="M20.45 3H3.55C2.7 3 2 3.67 2 4.5v15c0 .83.7 1.5 1.55 1.5h16.9c.85 0 1.55-.67 1.55-1.5v-15c0-.83-.7-1.5-1.55-1.5ZM8 18H5V9h3v9ZM6.5 7.77a1.75 1.75 0 1 1 0-3.5 1.75 1.75 0 0 1 0 3.5ZM19 18h-3v-4.38c0-1.04-.02-2.37-1.45-2.37-1.45 0-1.67 1.13-1.67 2.3V18h-3V9h2.88v1.23h.04c.4-.7 1.38-1.45 2.84-1.45C18.68 8.78 19 10.7 19 13.2V18Z"/>
+                        </svg>
+                    </a>
+                    <a href="#" target="_blank" aria-label="Twitter">
+                        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                            <path fill="currentColor" d="M23.95 4.57a9.9 9.9 0 0 1-2.83.78 4.94 4.94 0 0 0 2.17-2.72 9.86 9.86 0 0 1-3.13 1.2 4.92 4.92 0 0 0-8.39 4.49A13.98 13.98 0 0 1 1.64 3.16a4.92 4.92 0 0 0 1.52 6.57 4.9 4.9 0 0 1-2.23-.62v.06a4.93 4.93 0 0 0 3.95 4.83 4.93 4.93 0 0 1-2.22.08 4.93 4.93 0 0 0 4.6 3.42A9.88 9.88 0 0 1 0 19.54a13.94 13.94 0 0 0 7.55 2.21c9.06 0 14.02-7.5 14.02-14.02l-.02-.64a10 10 0 0 0 2.45-2.52Z"/>
+                        </svg>
+                    </a>
+                    <a href="#" target="_blank" aria-label="YouTube">
+                        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                            <path fill="currentColor" d="M23.5 6.2a3 3 0 0 0-2.1-2.12C19.55 3.57 12 3.57 12 3.57s-7.55 0-9.4.51A3 3 0 0 0 .5 6.2 31.3 31.3 0 0 0 0 12a31.3 31.3 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.12c1.85.51 9.4.51 9.4.51s7.55 0 9.4-.51a3 3 0 0 0 2.1-2.12A31.3 31.3 0 0 0 24 12a31.3 31.3 0 0 0-.5-5.8ZM9.55 15.58V8.42L15.82 12l-6.27 3.58Z"/>
+                        </svg>
+                    </a>
+                    <a href="#" target="_blank" aria-label="Instagram">
+                        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                            <rect x="3" y="3" width="18" height="18" rx="5" fill="none" stroke="currentColor" stroke-width="2"/>
+                            <circle cx="12" cy="12" r="4" fill="none" stroke="currentColor" stroke-width="2"/>
+                            <circle cx="17.5" cy="6.5" r="1.25" fill="currentColor"/>
+                        </svg>
+                    </a>
+                    <a href="#" target="_blank" aria-label="Meta">
+                        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                            <path d="M3 16.8c1.7-5.3 4-9.6 6.3-9.6 3.2 0 5.5 9.6 8.7 9.6 1.7 0 3-2.1 3-5.1s-1.6-5.1-3.5-5.1c-3.2 0-5.3 10.5-9 10.5-2 0-3.5-2.1-3.5-5.1" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2"/>
+                        </svg>
+                    </a>
+                    <a href="#" target="_blank" aria-label="Twitch">
+                        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                            <path fill="currentColor" d="M4 2h18v13l-5 5h-4l-3 3H7v-3H2V5l2-3Zm1 3v12h4v3l3-3h4l3-3V5H5Zm5 3h2v5h-2V8Zm5 0h2v5h-2V8Z"/>
+                        </svg>
+                    </a>
                 </div>
             </div>
         </section>
