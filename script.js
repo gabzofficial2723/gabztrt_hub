@@ -76,6 +76,7 @@ document.addEventListener('DOMContentLoaded', () => {
         stopScrollAnimation();
         pendingSectionId = null;
         clearTimeout(scrollEndTimer);
+        highlightNav();
 
         if (prefersReducedMotion || event.ctrlKey) {
             stopWheelAnimation();
@@ -120,11 +121,17 @@ document.addEventListener('DOMContentLoaded', () => {
     window.addEventListener('touchstart', () => {
         stopScrollAnimation();
         stopWheelAnimation();
+        pendingSectionId = null;
+        clearTimeout(scrollEndTimer);
+        highlightNav();
     }, { passive: true });
     window.addEventListener('keydown', (event) => {
         if (['ArrowDown', 'ArrowUp', 'PageDown', 'PageUp', 'Home', 'End', ' '].includes(event.key)) {
             stopScrollAnimation();
             stopWheelAnimation();
+            pendingSectionId = null;
+            clearTimeout(scrollEndTimer);
+            highlightNav();
         }
     });
 
@@ -132,18 +139,23 @@ document.addEventListener('DOMContentLoaded', () => {
     const sections = document.querySelectorAll('section[id]');
 
     const finishProgrammaticScroll = () => {
+        if (scrollAnimationFrame) {
+            return;
+        }
+
         pendingSectionId = null;
         highlightNav();
     };
 
     const highlightNav = () => {
-        const activationLine = headerHeight + 20;
-        const pendingSection = pendingSectionId && document.getElementById(pendingSectionId);
-        if (pendingSection && pendingSection.getBoundingClientRect().top > activationLine) {
+        if (pendingSectionId) {
+            navLinks.forEach(link => {
+                link.classList.toggle('active-nav', link.getAttribute('href') === `#${pendingSectionId}`);
+            });
             return;
         }
 
-        pendingSectionId = null;
+        const activationLine = headerHeight + 20;
         const atPageBottom = window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 1;
         const activeSection = atPageBottom
             ? sections[sections.length - 1]

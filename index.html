@@ -3,17 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Portfolio | Minimal Template</title>
+    <title>GabzTRT's Block</title>
+    <link rel="icon" type="image/png" href="assets/Redcube.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-
-    <video class="bg-video" autoplay muted loop playsinline aria-hidden="true" tabindex="-1">
-        <source src="assets/bg/minecraft-dog.3840x2160.mp4" type="video/mp4">
-    </video>
 
     <!-- Header / Navigation -->
     <header>
@@ -30,41 +27,52 @@
     <main class="container">
         <!-- Hero Section -->
         <section class="hero">
-            <h1>Hi, I am GabzTRT. Welcome to my side of the block!⚔️⚒️⛏️</h1>
-            <p>Focused on simplicity, functionality, and CRAFTING experiences.</p>
+            <video class="bg-video" autoplay muted loop playsinline aria-hidden="true" tabindex="-1">
+                <source src="assets/bg/minecraft-dog.3840x2160.mp4" type="video/mp4">
+            </video>
+            <h1>Hi, I am GabzTRT. Welcome to my side of the block! <span class="hero-tools"><img src="assets/dirt-block.svg" alt="Dirt block"><img src="assets/iron-pickaxe.svg" alt="Pixel-art iron pickaxe"></span></h1>
+            <p>Focused on simplicity, functionality, and <span class="hero-highlight">CRAFTING</span> experiences...</p>
         </section>
 
         <!-- About Section -->
         <section id="about" class="section">
-            <h2 class="section-title">About Me</h2>
+            <div class="about-heading">
+                <h2 class="section-title">About Me</h2>
+                <a class="about-rabbit-link" href="bunny.html" aria-label="Visit the Bunny Vault">
+                    <img class="about-rabbit" src="assets/models/Rabbit_White.png" alt="White Minecraft rabbit">
+                </a>
+            </div>
             <div class="about-content">
-                <p>I build intuitive applications with clean code architectures. My background balances technical execution with design sensibilities, ensuring that everything I build works seamlessly and feels intentional.</p>
-                <p>Currently focusing on modern frontend tech stacks, accessible design, and semantic HTML/CSS.</p>
+                <div class="about-copy">
+                    <p>I build creative designs with clean precise steps that I developed. My background balances technicality and human ingenuity, ensuring that everything I do works seamlessly and feels intentionally.</p>
+                    <p>Currently focusing on modern frontend designing, innovative creation, and semantic all around occupational gathering to gain invaluable experiences.</p>
+                </div>
+                <img class="about-image" src="assets/models/Creeper.jpg" alt="Minecraft Creeper">
             </div>
         </section>
 
         <!-- Projects Section -->
         <section id="projects" class="section">
-            <h2 class="section-title">Selected Work</h2>
+            <h2 class="section-title">My Works</h2>
             <div class="project-grid">
                 
                 <!-- Project 1 -->
                 <div class="project-card">
-                    <h3>Project Name One</h3>
-                    <p>A brief execution description of what this application does, the problems it solves, and the specific tech stack utilized.</p>
+                    <h3>Catering Services</h3>
+                    <p>A brief execution description of what this application does, the problems it solves, and the specific experience that it utilizes.</p>
                     <div class="project-links">
-                        <a href="#" target="_blank">View Live</a>
-                        <a href="#" target="_blank">Source Code</a>
+                        <a href="#" target="_blank">Quickview</a>
+                        <a href="#" target="_blank">Connections</a>
                     </div>
                 </div>
 
                 <!-- Project 2 -->
                 <div class="project-card">
-                    <h3>Project Name Two</h3>
-                    <p>A brief execution description of what this application does, the problems it solves, and the specific tech stack utilized.</p>
+                    <h3>Game Enthusiast</h3>
+                    <p>A introduction of what my side of the block means, the contents within, and the works it took behind it all.</p>
                     <div class="project-links">
-                        <a href="#" target="_blank">View Live</a>
-                        <a href="#" target="_blank">Source Code</a>
+                        <a href="#" target="_blank">Quickview</a>
+                        <a href="#" target="_blank">The Block</a>
                     </div>
                 </div>
 
@@ -73,11 +81,15 @@
 
         <!-- Contact Section -->
         <section id="contact" class="section">
-            <h2 class="section-title">Get In Touch</h2>
-            <p>I am currently open to new opportunities, freelance collaborations, or just a friendly chat.</p>
-            <div class="contact-links">
-                <a href="mailto:your.email@example.com" class="email-btn">your.email@example.com</a>
-                <div class="socials">
+            <div class="contact-visual">
+                <img class="contact-image" src="assets/models/Alex_Sword.png" alt="Minecraft character Alex holding a sword">
+            </div>
+            <div class="contact-details">
+                <h2 class="section-title">Get In Touch</h2>
+                <p>I am currently open to new opportunities, collaborations, or just a friendly chat.</p>
+                <div class="contact-links">
+                    <a href="https://mail.google.com/mail/?view=cm&amp;to=gabzofficial27@gmail.com" class="email-btn">gabzofficial27@gmail.com</a>
+                    <div class="socials">
                     <a href="#" target="_blank" aria-label="GitHub">
                         <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
                             <path fill="currentColor" d="M12 .75a11.25 11.25 0 0 0-3.56 21.92c.56.1.77-.24.77-.54v-2.1c-3.14.68-3.8-1.33-3.8-1.33-.5-1.3-1.22-1.65-1.22-1.65-.99-.68.08-.67.08-.67 1.1.08 1.68 1.13 1.68 1.13.98 1.68 2.56 1.2 3.18.92.1-.71.38-1.2.7-1.48-2.5-.28-5.13-1.25-5.13-5.56 0-1.23.44-2.23 1.13-3.02-.11-.28-.49-1.43.11-2.98 0 0 .92-.3 3.1 1.15a10.8 10.8 0 0 1 5.64 0c2.15-1.45 3.08-1.15 3.08-1.15.61 1.55.23 2.7.12 2.98.7.79 1.12 1.79 1.12 3.02 0 4.32-2.64 5.27-5.15 5.55.4.35.75 1.03.75 2.08v3.11c0 .3.2.65.78.54A11.25 11.25 0 0 0 12 .75Z"/>
@@ -115,6 +127,7 @@
                             <path fill="currentColor" d="M4 2h18v13l-5 5h-4l-3 3H7v-3H2V5l2-3Zm1 3v12h4v3l3-3h4l3-3V5H5Zm5 3h2v5h-2V8Zm5 0h2v5h-2V8Z"/>
                         </svg>
                     </a>
+                    </div>
                 </div>
             </div>
         </section>
@@ -122,7 +135,7 @@
 
     <!-- Footer -->
     <footer>
-        <p class="container">&copy; 2026 Your Name. Built with intent.</p>
+        <p class="container">&copy; 2026 GabzTRT. Built with intent and creativity.</p>
     </footer>
 	
 	<script src="script.js"></script>
