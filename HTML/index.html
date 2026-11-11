@@ -4,22 +4,39 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GabzTRT's Block</title>
-    <link rel="icon" type="image/png" href="assets/Redcube.png">
+    <link rel="icon" type="image/png" href="../assets/Redcube.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Lilita+One&family=Press+Start+2P&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../CSS/style.css?v=28">
 </head>
 <body>
 
     <!-- Header / Navigation -->
     <header>
         <nav class="container">
-            <img src="assets/Redcube.png" alt="Redcube logo" class="logo">
+            <img src="../assets/Redcube.png" alt="Redcube logo" class="logo">
             <ul class="nav-links">
                 <li><a href="#about">About</a></li>
                 <li><a href="#projects">Projects</a></li>
                 <li><a href="#contact">Contact</a></li>
+                <li class="font-picker">
+                    <button class="font-picker-toggle" type="button" aria-haspopup="menu" aria-expanded="false" aria-controls="font-menu">
+                        Fonts
+                    </button>
+                    <div class="font-picker-menu" id="font-menu" role="group" aria-label="Font selection" hidden>
+                        <p class="font-picker-title" role="presentation">Choose a font</p>
+                        <div class="font-picker-options" role="menu" aria-label="Available fonts">
+                            <button type="button" role="menuitemradio" data-font="pixel">Press Start 2P <span>Current</span></button>
+                            <button type="button" role="menuitemradio" data-font="system">System</button>
+                            <button type="button" role="menuitemradio" data-font="arial">Arial</button>
+                            <button type="button" role="menuitemradio" data-font="georgia">Georgia</button>
+                            <button type="button" role="menuitemradio" data-font="trebuchet">Trebuchet MS</button>
+                            <button class="font-option-clash" type="button" role="menuitemradio" data-font="clash">Clash-inspired (Lilita One)</button>
+                        </div>
+                        <p class="font-picker-status" role="status" aria-live="polite"></p>
+                    </div>
+                </li>
             </ul>
         </nav>
     </header>
@@ -28,18 +45,17 @@
         <!-- Hero Section -->
         <section class="hero">
             <video class="bg-video" autoplay muted loop playsinline aria-hidden="true" tabindex="-1">
-                <source src="assets/bg/minecraft-dog.3840x2160.mp4" type="video/mp4">
+                <source src="../assets/bg/minecraft-dog.3840x2160.mp4" type="video/mp4">
             </video>
-            <h1>Hi, I am GabzTRT. Welcome to my side of the block! <span class="hero-tools"><img src="assets/dirt-block.svg" alt="Dirt block"><img src="assets/iron-pickaxe.svg" alt="Pixel-art iron pickaxe"></span></h1>
+            <h1>Hi, I am GabzTRT. Welcome to my side of the block! <span class="hero-tools"><img src="../assets/dirt-block.svg" alt="Dirt block"><img src="../assets/iron-pickaxe.svg" alt="Pixel-art iron pickaxe"></span></h1>
             <p>Focused on simplicity, functionality, and <span class="hero-highlight">CRAFTING</span> experiences...</p>
         </section>
-
         <!-- About Section -->
         <section id="about" class="section">
             <div class="about-heading">
                 <h2 class="section-title">About Me</h2>
                 <a class="about-rabbit-link" href="bunny.html" aria-label="Visit the Bunny Vault">
-                    <img class="about-rabbit" src="assets/models/Rabbit_White.png" alt="White Minecraft rabbit">
+                    <img class="about-rabbit" src="../assets/models/Rabbit_White.png" alt="White Minecraft rabbit">
                 </a>
             </div>
             <div class="about-content">
@@ -47,7 +63,7 @@
                     <p>I build creative designs with clean precise steps that I developed. My background balances technicality and human ingenuity, ensuring that everything I do works seamlessly and feels intentionally.</p>
                     <p>Currently focusing on modern frontend designing, innovative creation, and semantic all around occupational gathering to gain invaluable experiences.</p>
                 </div>
-                <img class="about-image" src="assets/models/Creeper.jpg" alt="Minecraft Creeper">
+                <img class="about-image" src="../assets/models/Creeper.jpg" alt="Minecraft Creeper">
             </div>
         </section>
 
@@ -55,26 +71,47 @@
         <section id="projects" class="section">
             <h2 class="section-title">My Works</h2>
             <div class="project-grid">
+                <img class="project-center-golem" src="../assets/models/Golem_Flower.png" alt="Minecraft iron golem holding a flower" aria-hidden="true">
                 
                 <!-- Project 1 -->
-                <div class="project-card">
+                <article class="project-card">
                     <h3>Catering Services</h3>
                     <p>A brief execution description of what this application does, the problems it solves, and the specific experience that it utilizes.</p>
                     <div class="project-links">
                         <a href="#" target="_blank">Quickview</a>
                         <a href="#" target="_blank">Connections</a>
                     </div>
-                </div>
+                </article>
 
                 <!-- Project 2 -->
-                <div class="project-card">
+                <article class="project-card">
                     <h3>Game Enthusiast</h3>
                     <p>A introduction of what my side of the block means, the contents within, and the works it took behind it all.</p>
                     <div class="project-links">
                         <a href="#" target="_blank">Quickview</a>
                         <a href="#" target="_blank">The Block</a>
                     </div>
-                </div>
+                </article>
+
+                <!-- Project 3 -->
+                <article class="project-card">
+                    <h3>Frontend Developer</h3>
+                    <p>I build responsive, accessible web experiences with a focus on clean interfaces and dependable functionality.</p>
+                    <div class="project-links">
+                        <a href="#" target="_blank">Quickview</a>
+                        <a href="#" target="_blank">Connections</a>
+                    </div>
+                </article>
+
+                <!-- Project 4 -->
+                <article class="project-card">
+                    <h3>Troll Expert</h3>
+                    <p>Specialist in harmless pranks, playful banter, and keeping the block entertained.</p>
+                    <div class="project-links">
+                        <a href="#" target="_blank">Quickview</a>
+                        <a href="#" target="_blank">The Block</a>
+                    </div>
+                </article>
 
             </div>
         </section>
@@ -82,7 +119,7 @@
         <!-- Contact Section -->
         <section id="contact" class="section">
             <div class="contact-visual">
-                <img class="contact-image" src="assets/models/Alex_Sword.png" alt="Minecraft character Alex holding a sword">
+                <img class="contact-image" src="../assets/models/Alex_Sword.png" alt="Minecraft character Alex holding a sword">
             </div>
             <div class="contact-details">
                 <h2 class="section-title">Get In Touch</h2>
@@ -138,7 +175,7 @@
         <p class="container">&copy; 2026 GabzTRT. Built with intent and creativity.</p>
     </footer>
 	
-	<script src="script.js"></script>
+	<script src="../JAVA/script.js?v=9"></script>
 
 </body>
 </html>

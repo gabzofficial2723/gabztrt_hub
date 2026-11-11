@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bunny Vault</title>
+    <link rel="icon" type="image/svg+xml" href="../assets/bunny-icon.svg">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lilita+One&family=Press+Start+2P&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../CSS/bunny.css?v=3">
+</head>
+<body>
+    <header class="vault-topbar">
+        <a class="back-link" href="index.html#about"><span aria-hidden="true">&larr;</span> Back</a>
+        <img class="vault-icon" src="../assets/bunny-icon.svg" alt="">
+    </header>
+
+    <main class="vault-main">
+        <h1>Hello Bunnybun!<span aria-hidden="true">🐰</span></h1>
+        <p class="vault-intro">A cozy little corner for favorite memories.</p>
+
+        <section class="folder-actions" aria-label="Folder actions">
+            <button class="add-folder-button" type="button">
+                <span aria-hidden="true">+</span>
+                Add a folder
+            </button>
+            <p class="folder-save-hint">Choose the ProjectPort folder when prompted. New folders and uploaded images are saved there.</p>
+        </section>
+
+        <section class="bunny-gallery" id="folder-list" aria-label="Photo folders"></section>
+        <p class="folder-settings-error" role="alert" hidden></p>
+
+        <dialog class="photo-dialog" id="photo-dialog" aria-labelledby="dialog-title">
+            <div class="dialog-panel">
+                <header class="dialog-header">
+                    <div>
+                        <p class="dialog-eyebrow">Bunny Vault</p>
+                        <h2 id="dialog-title">Favorite Memories</h2>
+                    </div>
+                    <div class="dialog-header-actions">
+                        <button class="dialog-add-files" type="button">
+                            <span aria-hidden="true">+</span>
+                            Add Files
+                        </button>
+                        <button class="dialog-close" type="button" aria-label="Close photo viewer">&times;</button>
+                    </div>
+                </header>
+
+                <input class="folder-file-input" id="folder-file-input" type="file" accept="image/*" multiple hidden>
+                <p class="upload-status" role="status" hidden></p>
+                <div class="photo-grid" aria-label="Photo previews"></div>
+                <section class="photo-viewer" aria-label="Full-size photo" hidden>
+                    <div class="viewer-toolbar">
+                        <button class="viewer-back" type="button">Back to photos</button>
+                        <span class="viewer-caption"></span>
+                        <div class="zoom-controls" aria-label="Image zoom controls">
+                            <button class="zoom-out" type="button" aria-label="Zoom out">−</button>
+                            <button class="zoom-reset" type="button" aria-label="Reset zoom">100%</button>
+                            <button class="zoom-in" type="button" aria-label="Zoom in">+</button>
+                        </div>
+                    </div>
+                    <div class="viewer-stage">
+                        <img class="viewer-image" alt="">
+                    </div>
+                </section>
+            </div>
+        </dialog>
+
+        <dialog class="action-dialog" id="rename-dialog" aria-labelledby="rename-title">
+            <form class="action-form" id="rename-form">
+                <p class="dialog-eyebrow">Folder settings</p>
+                <h2 id="rename-title">Rename folder</h2>
+                <p class="action-error rename-error" role="alert" hidden></p>
+                <label class="rename-label" for="folder-name-input">Folder name</label>
+                <input id="folder-name-input" name="folderName" type="text" maxlength="60" required>
+                <div class="action-buttons">
+                    <button class="action-cancel" type="button">Cancel</button>
+                    <button class="action-save" type="submit">Save</button>
+                </div>
+            </form>
+        </dialog>
+
+        <dialog class="action-dialog" id="delete-dialog" aria-labelledby="delete-title">
+            <form class="action-form" id="delete-form">
+                <p class="dialog-eyebrow">Folder settings</p>
+                <h2 id="delete-title">Delete folder?</h2>
+                <p class="delete-message">Are you sure? You won't recover the images after deleting. 🙁</p>
+                <p class="action-error delete-error" role="alert" hidden></p>
+                <div class="action-buttons">
+                    <button class="action-cancel" type="button">Cancel</button>
+                    <button class="action-delete" type="submit">Confirm</button>
+                </div>
+            </form>
+        </dialog>
+    </main>
+    <script src="../JAVA/bunny.js?v=8"></script>
+</body>
+</html>
