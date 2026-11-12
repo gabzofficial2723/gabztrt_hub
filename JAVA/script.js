@@ -9,6 +9,17 @@ document.addEventListener('DOMContentLoaded', () => {
         ['arial', 'Arial, Helvetica, sans-serif'],
         ['georgia', 'Georgia, "Times New Roman", serif'],
         ['trebuchet', '"Trebuchet MS", Arial, sans-serif'],
+        ['supercell', '"Supercell Magic", sans-serif'],
+        ['minecraft', '"Minecraft", sans-serif'],
+        ['minecrafter', '"Minecrafter", sans-serif'],
+        ['minecrafter-alt', '"Minecrafter Alt", sans-serif'],
+        ['tf2', '"TF2 Build", sans-serif'],
+        ['overseer', '"Overseer", sans-serif'],
+        ['adventure', '"Adventure Time Logo", sans-serif'],
+        ['ps-bold', '"PS Bold", sans-serif'],
+        ['ps-old', '"PS Old", sans-serif'],
+        ['zrnic', '"Zrnic", sans-serif'],
+        ['zrnic-rg', '"Zrnic Rg", sans-serif'],
         ['clash', '"Lilita One", sans-serif']
     ]);
     const fontStorageKey = 'gabztrt-site-font';
@@ -58,10 +69,10 @@ document.addEventListener('DOMContentLoaded', () => {
         if (savedFont && fontOptions.has(savedFont)) {
             setFont(savedFont);
         } else {
-            setFont('pixel');
+            setFont('zrnic-rg');
         }
     } catch (error) {
-        setFont('pixel');
+        setFont('zrnic-rg');
         fontPickerStatus.textContent = 'Font preference storage is unavailable.';
         console.error('The saved font preference could not be read.', error);
     }
@@ -199,6 +210,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- 1. Smooth Scrolling with Fixed Header Offset ---
     const navLinks = document.querySelectorAll('.nav-links a');
+    const homeLink = document.querySelector('.logo-link');
     const headerHeight = document.querySelector('header').offsetHeight;
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     let pendingSectionId = null;
@@ -268,6 +280,15 @@ document.addEventListener('DOMContentLoaded', () => {
                 animateScrollTo(targetTop);
             }
         });
+    });
+
+    homeLink.addEventListener('click', (event) => {
+        event.preventDefault();
+        stopScrollAnimation();
+        stopWheelAnimation();
+        clearTimeout(scrollEndTimer);
+        pendingSectionId = null;
+        animateScrollTo(0);
     });
 
     window.addEventListener('wheel', (event) => {

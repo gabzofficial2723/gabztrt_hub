@@ -5,6 +5,17 @@ document.addEventListener('DOMContentLoaded', () => {
         ['arial', 'Arial, Helvetica, sans-serif'],
         ['georgia', 'Georgia, "Times New Roman", serif'],
         ['trebuchet', '"Trebuchet MS", Arial, sans-serif'],
+        ['supercell', '"Supercell Magic", sans-serif'],
+        ['minecraft', '"Minecraft", sans-serif'],
+        ['minecrafter', '"Minecrafter", sans-serif'],
+        ['minecrafter-alt', '"Minecrafter Alt", sans-serif'],
+        ['tf2', '"TF2 Build", sans-serif'],
+        ['overseer', '"Overseer", sans-serif'],
+        ['adventure', '"Adventure Time Logo", sans-serif'],
+        ['ps-bold', '"PS Bold", sans-serif'],
+        ['ps-old', '"PS Old", sans-serif'],
+        ['zrnic', '"Zrnic", sans-serif'],
+        ['zrnic-rg', '"Zrnic Rg", sans-serif'],
         ['clash', '"Lilita One", sans-serif']
     ]);
 
@@ -29,6 +40,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const dialogAddFiles = document.querySelector('.dialog-add-files');
     const fileInput = document.querySelector('#folder-file-input');
     const photoGrid = document.querySelector('.photo-grid');
+    const photoTooltip = document.querySelector('.photo-tooltip');
     const photoViewer = document.querySelector('.photo-viewer');
     const viewerImage = document.querySelector('.viewer-image');
     const viewerCaption = document.querySelector('.viewer-caption');
@@ -44,14 +56,14 @@ document.addEventListener('DOMContentLoaded', () => {
     const deleteForm = document.querySelector('#delete-form');
     const deleteError = document.querySelector('.delete-error');
     const photos = [
-        '1000009124.jpg',
-        '1000009139.jpg',
-        '1000009153.jpg',
-        '1000009443.jpg',
-        '1000009447.jpg',
-        '1000010115.jpg',
-        '1000010233.jpg',
-        '1000010242.jpg'
+        { name: '1000009124.jpg', lastModified: Date.parse('2026-11-08T05:35:42+08:00'), size: 3069480 },
+        { name: '1000009139.jpg', lastModified: Date.parse('2026-11-08T05:35:42+08:00'), size: 2910286 },
+        { name: '1000009153.jpg', lastModified: Date.parse('2026-11-08T05:35:42+08:00'), size: 4562295 },
+        { name: '1000009443.jpg', lastModified: Date.parse('2026-11-08T05:35:42+08:00'), size: 565444 },
+        { name: '1000009447.jpg', lastModified: Date.parse('2026-11-08T05:35:42+08:00'), size: 3532685 },
+        { name: '1000010115.jpg', lastModified: Date.parse('2026-11-08T05:35:42+08:00'), size: 4780369 },
+        { name: '1000010233.jpg', lastModified: Date.parse('2026-11-08T05:35:42+08:00'), size: 1697419 },
+        { name: '1000010242.jpg', lastModified: Date.parse('2026-11-08T05:35:42+08:00'), size: 2382869 }
     ];
     const databaseName = 'bunny-vault';
     const favoriteFolderId = 'favorites';
@@ -68,6 +80,8 @@ document.addEventListener('DOMContentLoaded', () => {
     let startTime;
     let animationFrame;
     let zoom = 1;
+    let photoTooltipTimer;
+    let photoTooltipPointer = { x: 0, y: 0 };
     let pointerFolder;
     let focusFolder;
 
@@ -436,7 +450,151 @@ document.addEventListener('DOMContentLoaded', () => {
         photoObjectUrls.clear();
     };
 
+    const createPhotoThumbnail = async (file) => {
+        const bitmap = await createImageBitmap(file, {
+            resizeWidth: 128,
+            resizeQuality: 'high'
+        });
+        const canvas = document.createElement('canvas');
+        canvas.width = bitmap.width;
+        canvas.height = bitmap.height;
+        const context = canvas.getContext('2d');
+        if (!context) {
+            bitmap.close();
+            throw new Error('A canvas context is required to create image previews.');
+        }
+
+        context.drawImage(bitmap, 0, 0);
+        bitmap.close();
+        const thumbnailType = /image\/(png|gif|webp|svg\+xml)/i.test(file.type)
+            ? 'image/png'
+            : 'image/jpeg';
+        const thumbnailBlob = await new Promise((resolve) => {
+            canvas.toBlob(resolve, thumbnailType, 0.72);
+        });
+        if (!thumbnailBlob) {
+            throw new Error('The image preview could not be encoded.');
+        }
+
+        const thumbnailUrl = URL.createObjectURL(thumbnailBlob);
+        photoObjectUrls.add(thumbnailUrl);
+        return thumbnailUrl;
+    };
+
+    const formatPhotoDate = (timestamp) => {
+        const date = new Date(timestamp);
+        if (!Number.isFinite(date.getTime())) {
+            return 'Unavailable';
+        }
+        return new Intl.DateTimeFormat(undefined, {
+            year: 'numeric',
+            month: 'numeric',
+            day: 'numeric',
+            hour: 'numeric',
+            minute: '2-digit'
+        }).format(date);
+    };
+
+    const formatPhotoSize = (size) => {
+        if (!Number.isFinite(size) || size < 0) {
+            return 'Unavailable';
+        }
+        if (size < 1024) {
+            return `${new Intl.NumberFormat().format(size)} bytes`;
+        }
+
+        const units = ['KB', 'MB', 'GB', 'TB'];
+        let value = size / 1024;
+        let unitIndex = 0;
+        while (value >= 1024 && unitIndex < units.length - 1) {
+            value /= 1024;
+            unitIndex += 1;
+        }
+        return `${new Intl.NumberFormat(undefined, { maximumFractionDigits: 1 }).format(value)} ${units[unitIndex]}`;
+    };
+
+    const getPhotoType = (name, mimeType = '') => {
+        const extension = name.split('.').pop().toLowerCase();
+        const extensionTypes = {
+            avif: 'AVIF image',
+            bmp: 'Bitmap image',
+            gif: 'GIF image',
+            jpeg: 'JPEG image',
+            jpg: 'JPEG image',
+            png: 'PNG image',
+            svg: 'SVG image',
+            tif: 'TIFF image',
+            tiff: 'TIFF image',
+            webp: 'WebP image'
+        };
+        if (extensionTypes[extension]) {
+            return extensionTypes[extension];
+        }
+        const mimeSubtype = mimeType.split('/')[1]?.split(/[;+]/)[0];
+        return mimeSubtype ? `${mimeSubtype.toUpperCase()} image` : 'Image file';
+    };
+
+    const getPhotoDetails = (entry) => [
+        { label: 'Date modified', className: 'photo-row-date', value: formatPhotoDate(entry.lastModified) },
+        { label: 'Type', className: 'photo-row-type', value: entry.type || getPhotoType(entry.title, entry.mimeType) },
+        { label: 'Size', className: 'photo-row-size', value: formatPhotoSize(entry.size) }
+    ];
+
+    const hidePhotoTooltip = () => {
+        clearTimeout(photoTooltipTimer);
+        photoTooltip.classList.remove('is-visible');
+        photoTooltip.setAttribute('aria-hidden', 'true');
+    };
+
+    const positionPhotoTooltip = () => {
+        const dialogRect = dialog.getBoundingClientRect();
+        const tooltipWidth = photoTooltip.offsetWidth;
+        const tooltipHeight = photoTooltip.offsetHeight;
+        const margin = 12;
+        const gap = 16;
+        const pointerX = photoTooltipPointer.x - dialogRect.left - dialog.clientLeft;
+        const pointerY = photoTooltipPointer.y - dialogRect.top - dialog.clientTop;
+        let left = pointerX + gap;
+        let top = pointerY + gap;
+
+        if (left + tooltipWidth > dialog.clientWidth - margin) {
+            left = pointerX - tooltipWidth - gap;
+        }
+        if (top + tooltipHeight > dialog.clientHeight - margin) {
+            top = pointerY - tooltipHeight - gap;
+        }
+
+        const maxLeft = Math.max(margin, dialog.clientWidth - tooltipWidth - margin);
+        const maxTop = Math.max(margin, dialog.clientHeight - tooltipHeight - margin);
+        photoTooltip.style.left = `${Math.max(margin, Math.min(left, maxLeft))}px`;
+        photoTooltip.style.top = `${Math.max(margin, Math.min(top, maxTop))}px`;
+    };
+
+    const showPhotoTooltip = (entry, details) => {
+        const heading = document.createElement('strong');
+        const detailList = document.createElement('dl');
+        heading.textContent = entry.title;
+        details.forEach(({ label, value }) => {
+            const term = document.createElement('dt');
+            const description = document.createElement('dd');
+            term.textContent = label;
+            description.textContent = value;
+            detailList.append(term, description);
+        });
+        photoTooltip.replaceChildren(heading, detailList);
+        photoTooltip.setAttribute('aria-hidden', 'false');
+        photoTooltip.classList.add('is-visible');
+        positionPhotoTooltip();
+    };
+
+    const schedulePhotoTooltip = (entry, details, x, y) => {
+        clearTimeout(photoTooltipTimer);
+        photoTooltipPointer = { x, y };
+        photoTooltipTimer = setTimeout(() => showPhotoTooltip(entry, details), 600);
+    };
+
     const showPhotoGrid = () => {
+        hidePhotoTooltip();
         photoGrid.hidden = false;
         photoViewer.hidden = true;
         viewerImage.removeAttribute('src');
@@ -446,6 +604,7 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     const openPhoto = (entry) => {
+        hidePhotoTooltip();
         viewerImage.src = entry.src;
         viewerImage.alt = entry.title;
         viewerCaption.textContent = entry.title;
@@ -455,23 +614,56 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     const makePhotoCard = (entry) => {
+        const item = document.createElement('li');
         const button = document.createElement('button');
         const image = document.createElement('img');
+        const name = document.createElement('span');
         const label = document.createElement('span');
+        const metadata = document.createElement('span');
+        const details = getPhotoDetails(entry);
+        item.className = 'photo-list-item';
         button.className = 'photo-preview';
         button.type = 'button';
-        button.setAttribute('aria-label', `View ${entry.title}`);
-        image.src = entry.src;
+        button.setAttribute('aria-label', `Open ${entry.title}. ${details.map(({ label: detailLabel, value }) => `${detailLabel}: ${value}`).join('. ')}`);
+        name.className = 'photo-row-name';
+        image.src = entry.thumbnailSrc || entry.src;
         image.alt = '';
         image.loading = 'lazy';
         image.decoding = 'async';
+        label.className = 'photo-row-title';
         label.textContent = entry.title;
-        button.append(image, label);
+        name.append(image, label);
+        metadata.className = 'photo-row-meta';
+        details.forEach(({ label: detailLabel, className, value }) => {
+            const detail = document.createElement('span');
+            detail.className = className;
+            detail.dataset.label = detailLabel;
+            detail.textContent = value;
+            metadata.append(detail);
+        });
+        button.append(name, metadata);
         button.addEventListener('click', () => openPhoto(entry));
-        return button;
+        button.addEventListener('pointerenter', (event) => {
+            schedulePhotoTooltip(entry, details, event.clientX, event.clientY);
+        });
+        button.addEventListener('pointermove', (event) => {
+            photoTooltipPointer = { x: event.clientX, y: event.clientY };
+            if (photoTooltip.classList.contains('is-visible')) {
+                positionPhotoTooltip();
+            }
+        });
+        button.addEventListener('pointerleave', hidePhotoTooltip);
+        button.addEventListener('focus', () => {
+            const rect = button.getBoundingClientRect();
+            schedulePhotoTooltip(entry, details, rect.left + rect.width / 2, rect.top + rect.height / 2);
+        });
+        button.addEventListener('blur', hidePhotoTooltip);
+        item.append(button);
+        return item;
     };
 
     const renderPhotoGrid = (entries) => {
+        hidePhotoTooltip();
         photoGrid.replaceChildren();
         if (!entries.length) {
             const emptyState = document.createElement('div');
@@ -490,7 +682,24 @@ document.addEventListener('DOMContentLoaded', () => {
             emptyState.append(icon, message, button);
             photoGrid.append(emptyState);
         } else {
-            photoGrid.append(...entries.map(makePhotoCard));
+            const header = document.createElement('div');
+            const nameHeader = document.createElement('span');
+            const metadataHeader = document.createElement('span');
+            const list = document.createElement('ul');
+            header.className = 'photo-list-header';
+            header.setAttribute('aria-hidden', 'true');
+            nameHeader.textContent = 'Name';
+            metadataHeader.className = 'photo-row-meta';
+            ['Date modified', 'Type', 'Size'].forEach((label) => {
+                const heading = document.createElement('span');
+                heading.textContent = label;
+                metadataHeader.append(heading);
+            });
+            header.append(nameHeader, metadataHeader);
+            list.className = 'photo-list';
+            list.setAttribute('aria-label', 'Image files');
+            list.append(...entries.map(makePhotoCard));
+            photoGrid.append(header, list);
         }
         setUploadStatus('');
     };
@@ -499,9 +708,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const getPhotoEntries = async (folder) => {
         const entries = folder.builtin
-            ? photos.map((filename, index) => ({
-                title: `Treasure ${String(index + 1).padStart(2, '0')}`,
-                src: `../assets/pictures/${filename}`
+            ? photos.map(({ name, lastModified, size }) => ({
+                title: name,
+                src: `../assets/pictures/${name}`,
+                thumbnailSrc: `../assets/pictures/thumbnails/${name}`,
+                lastModified,
+                type: getPhotoType(name, 'image/jpeg'),
+                size
             }))
             : [];
         entries.push(...await getFolderImages(folder));
@@ -527,7 +740,20 @@ document.addEventListener('DOMContentLoaded', () => {
             }
             const src = URL.createObjectURL(file);
             photoObjectUrls.add(src);
-            entries.push({ title: name, src });
+            let thumbnailSrc = src;
+            try {
+                thumbnailSrc = await createPhotoThumbnail(file);
+            } catch (error) {
+                console.error(`Could not create a small preview for ${name}; the original image will be used.`, error);
+            }
+            entries.push({
+                title: name,
+                src,
+                thumbnailSrc,
+                lastModified: file.lastModified,
+                type: getPhotoType(name, file.type),
+                size: file.size
+            });
         }
         return entries.sort((left, right) => left.title.localeCompare(right.title));
     };

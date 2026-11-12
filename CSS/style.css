@@ -6,7 +6,7 @@
     --accent: #3f742f;
     --card-bg: #e3f0d6;
     --max-width: 800px;
-    --site-font-family: "Press Start 2P", "Courier New", monospace;
+    --site-font-family: "Zrnic Rg", sans-serif;
 }
 
 /* --- Base Resets & Layout --- */
@@ -19,10 +19,7 @@
 html {
     background-color: #eaf0e5;
     scroll-behavior: auto;
-}
-
-html[data-site-font="clash"] {
-    font-size-adjust: 0.58;
+    font-size-adjust: 0.75;
 }
 
 body {
@@ -65,13 +62,18 @@ footer {
     padding: 0 24px;
 }
 
+main.container {
+    max-width: none;
+    padding: 0;
+}
+
 /* --- Navigation --- */
 header {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
-    background-color: rgba(63, 116, 47, 0.3);
+    background-color: rgba(226, 226, 226, 0.3);
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
@@ -119,6 +121,7 @@ nav {
     right: 0;
     display: grid;
     width: min(250px, calc(100vw - 32px));
+    max-height: min(70vh, 500px);
     gap: 4px;
     padding: 10px;
     border: 1px solid rgba(37, 41, 31, 0.15);
@@ -127,6 +130,8 @@ nav {
     box-shadow: 0 12px 32px rgba(18, 30, 16, 0.2);
     backdrop-filter: blur(14px);
     -webkit-backdrop-filter: blur(14px);
+    overflow-y: auto;
+    overscroll-behavior: contain;
     opacity: 0;
     transform: translateY(-6px) scale(0.98);
     transform-origin: top right;
@@ -164,6 +169,7 @@ nav {
 
 .font-picker-menu button {
     display: flex;
+    min-width: 0;
     min-height: 40px;
     align-items: center;
     justify-content: space-between;
@@ -176,6 +182,7 @@ nav {
     font: inherit;
     font-size: 0.68rem;
     text-align: left;
+    overflow-wrap: anywhere;
     cursor: pointer;
     transition: color 160ms ease, background-color 160ms ease;
 }
@@ -195,8 +202,52 @@ nav {
 .font-picker-menu .font-option-clash {
     font-family: "Lilita One", sans-serif;
     font-size: 0.95rem;
-    font-size-adjust: 0.58;
+    font-size-adjust: 0.75;
     letter-spacing: 0.02em;
+}
+
+.font-picker-options [data-font="supercell"] {
+    font-family: "Supercell Magic", sans-serif;
+}
+
+.font-picker-options [data-font="minecraft"] {
+    font-family: "Minecraft", sans-serif;
+}
+
+.font-picker-options [data-font="minecrafter"] {
+    font-family: "Minecrafter", sans-serif;
+}
+
+.font-picker-options [data-font="minecrafter-alt"] {
+    font-family: "Minecrafter Alt", sans-serif;
+}
+
+.font-picker-options [data-font="tf2"] {
+    font-family: "TF2 Build", sans-serif;
+}
+
+.font-picker-options [data-font="overseer"] {
+    font-family: "Overseer", sans-serif;
+}
+
+.font-picker-options [data-font="adventure"] {
+    font-family: "Adventure Time Logo", sans-serif;
+}
+
+.font-picker-options [data-font="ps-bold"] {
+    font-family: "PS Bold", sans-serif;
+}
+
+.font-picker-options [data-font="ps-old"] {
+    font-family: "PS Old", sans-serif;
+}
+
+.font-picker-options [data-font="zrnic"] {
+    font-family: "Zrnic", sans-serif;
+}
+
+.font-picker-options [data-font="zrnic-rg"] {
+    font-family: "Zrnic Rg", sans-serif;
 }
 
 .font-picker-status {
@@ -267,10 +318,9 @@ nav {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    width: 100vw;
+    width: 100%;
     height: min(56.25vw, 850px);
     min-height: 560px;
-    margin-left: calc(50% - 50vw);
     padding: 100px clamp(24px, 12vw, 180px) 60px;
     overflow: hidden;
     color: #fff;
@@ -283,6 +333,62 @@ nav {
     z-index: 1;
     background: linear-gradient(90deg, rgba(0, 0, 0, 0.48), rgba(0, 0, 0, 0.08) 75%);
     content: "";
+}
+
+.profile-link-section {
+    height: 80px;
+    margin-inline: clamp(24px, 8vw, 120px);
+}
+
+.profile-button {
+    display: flex;
+    position: relative;
+    width: 100%;
+    height: 100%;
+    align-items: center;
+    justify-content: center;
+    overflow: visible;
+    border-radius: 16px;
+    color: #fff;
+    background: linear-gradient(135deg, #a855f7 0%, #7c3aed 55%, #5b21b6 100%);
+    box-shadow:
+        inset 2px 2px 8px rgba(255, 255, 255, 0.3),
+        8px 10px 20px rgba(54, 25, 82, 0.35);
+    font-size: 1.25rem;
+    text-decoration: none;
+    text-shadow: 0 2px 8px rgba(38, 12, 72, 0.65);
+    transition: filter 240ms ease, transform 280ms cubic-bezier(0.22, 1, 0.36, 1);
+    font-family: "TF2 Build", sans-serif;
+}
+
+.profile-button:hover,
+.profile-button:focus-visible {
+    filter: brightness(1.08);
+    transform: translateY(-2px);
+}
+
+.profile-button:focus-visible {
+    outline: 3px solid #5b21b6;
+    outline-offset: 4px;
+}
+
+.profile-button img {
+    display: block;
+    position: absolute;
+    top: 50%;
+    left: clamp(12px, 3vw, 32px);
+    z-index: 2;
+    width: 116px;
+    height: 116px;
+    object-fit: contain;
+    filter: drop-shadow(2px 4px 4px rgba(38, 12, 72, 0.45));
+    transform: translateY(-50%);
+    pointer-events: none;
+}
+
+.profile-button span {
+    position: relative;
+    z-index: 1;
 }
 
 .hero > :not(.bg-video) {
@@ -333,8 +439,7 @@ nav {
 
 /* --- About --- */
 #about {
-    width: 100vw;
-    margin-left: calc(50% - 50vw);
+    width: 100%;
     padding: 80px clamp(24px, 8vw, 120px) 40px;
 }
 
@@ -414,15 +519,14 @@ nav {
     width: 100%;
     height: 280px;
     max-width: 300px;
-    object-fit: cover;
+    object-fit: contain;
     border-radius: 20px;
     justify-self: center;
 }
 
 /* --- Projects --- */
 #projects {
-    width: 100vw;
-    margin-left: calc(50% - 50vw);
+    width: 100%;
     padding: 80px clamp(24px, 8vw, 120px) 40px;
 }
 
@@ -439,7 +543,7 @@ nav {
     top: 50%;
     left: 50%;
     z-index: 2;
-    width: clamp(104px, 9.5vw, 124px);
+    width: clamp(176px, 13vw, 190px);
     object-fit: contain;
     filter: drop-shadow(0 8px 12px rgba(16, 54, 35, 0.24));
     transform: translate(-50%, -50%);
@@ -453,29 +557,10 @@ nav {
     isolation: isolate;
     min-width: 0;
     flex-direction: column;
-    padding: clamp(20px, 2.5vw, 32px);
+    padding: clamp(24px, 2.5vw, 32px);
     border: 0;
     border-radius: 20px;
-}
-
-.project-card:nth-of-type(1),
-.project-card:nth-of-type(2) {
-    padding-bottom: clamp(60px, 5.5vw, 68px);
-}
-
-.project-card:nth-of-type(1),
-.project-card:nth-of-type(3) {
-    padding-right: clamp(48px, 4.5vw, 60px);
-}
-
-.project-card:nth-of-type(3),
-.project-card:nth-of-type(4) {
-    padding-top: clamp(60px, 5.5vw, 68px);
-}
-
-.project-card:nth-of-type(2),
-.project-card:nth-of-type(4) {
-    padding-left: clamp(48px, 4.5vw, 60px);
+    text-align: center;
 }
 
 .project-card::before {
@@ -509,6 +594,7 @@ nav {
     font-size: 1.25rem;
     font-weight: 400;
     margin-bottom: 12px;
+    text-align: center;
 }
 
 .project-card p {
@@ -532,6 +618,24 @@ nav {
     transition: color 0.2s ease;
 }
 
+.project-links .quickview-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: #267c4a;
+}
+
+.quickview-link svg {
+    display: block;
+    width: 1.45rem;
+    height: 1.45rem;
+    fill: currentColor;
+}
+
+.project-links .quickview-link:hover {
+    color: #145c35;
+}
+
 .project-links a:hover {
     text-decoration: underline;
     text-decoration-color: var(--accent);
@@ -543,8 +647,7 @@ nav {
     grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
     align-items: center;
     gap: clamp(32px, 7vw, 96px);
-    width: 100vw;
-    margin-left: calc(50% - 50vw);
+    width: 100%;
     padding: 80px clamp(24px, 8vw, 120px) 40px;
 }
 
@@ -592,6 +695,7 @@ nav {
 
 .email-btn {
     display: inline-block;
+    max-width: 100%;
     text-decoration: none;
     color: var(--bg-color);
     background-color: var(--text-main);
@@ -600,6 +704,7 @@ nav {
     border-radius: 4px;
     transition: background-color 0.2s ease;
     margin-bottom: 32px;
+    overflow-wrap: anywhere;
 }
 
 .email-btn:hover {
@@ -608,6 +713,7 @@ nav {
 
 .socials {
     display: flex;
+    flex-wrap: wrap;
     align-items: center;
     gap: 20px;
 }
@@ -658,6 +764,12 @@ footer {
         padding: 0 16px;
     }
 
+    .font-picker-menu {
+        position: fixed;
+        top: 80px;
+        right: 16px;
+    }
+
     .logo {
         width: 56px;
         height: 40px;
@@ -665,13 +777,13 @@ footer {
 
     .nav-links {
         position: static;
-        gap: clamp(6px, 2vw, 10px);
+        gap: clamp(4px, 1.5vw, 8px);
         transform: none;
     }
 
     .nav-links a,
     .font-picker-toggle {
-        font-size: 0.58rem;
+        font-size: 0.48rem;
     }
 
     .project-center-golem {
@@ -699,7 +811,6 @@ footer {
     }
 
     .email-btn {
-        max-width: 100%;
         padding: 12px;
         font-size: 0.65rem;
     }
@@ -746,27 +857,7 @@ footer {
     }
 
     .project-center-golem {
-        width: 96px;
-    }
-
-    .project-card:nth-of-type(1),
-    .project-card:nth-of-type(2) {
-        padding-bottom: 56px;
-    }
-
-    .project-card:nth-of-type(1),
-    .project-card:nth-of-type(3) {
-        padding-right: 44px;
-    }
-
-    .project-card:nth-of-type(3),
-    .project-card:nth-of-type(4) {
-        padding-top: 56px;
-    }
-
-    .project-card:nth-of-type(2),
-    .project-card:nth-of-type(4) {
-        padding-left: 44px;
+        width: 144px;
     }
 }
 

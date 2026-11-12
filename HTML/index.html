@@ -8,14 +8,17 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Lilita+One&family=Press+Start+2P&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="../CSS/style.css?v=28">
+    <link rel="stylesheet" href="../CSS/fonts.css?v=3">
+    <link rel="stylesheet" href="../CSS/style.css?v=41">
 </head>
 <body>
 
     <!-- Header / Navigation -->
     <header>
         <nav class="container">
-            <img src="../assets/Redcube.png" alt="Redcube logo" class="logo">
+            <a class="logo-link" href="#" aria-label="Back to top">
+                <img src="../assets/Redcube.png" alt="" class="logo">
+            </a>
             <ul class="nav-links">
                 <li><a href="#about">About</a></li>
                 <li><a href="#projects">Projects</a></li>
@@ -27,11 +30,22 @@
                     <div class="font-picker-menu" id="font-menu" role="group" aria-label="Font selection" hidden>
                         <p class="font-picker-title" role="presentation">Choose a font</p>
                         <div class="font-picker-options" role="menu" aria-label="Available fonts">
-                            <button type="button" role="menuitemradio" data-font="pixel">Press Start 2P <span>Current</span></button>
+                            <button type="button" role="menuitemradio" data-font="pixel">Press Start 2P</button>
                             <button type="button" role="menuitemradio" data-font="system">System</button>
                             <button type="button" role="menuitemradio" data-font="arial">Arial</button>
                             <button type="button" role="menuitemradio" data-font="georgia">Georgia</button>
                             <button type="button" role="menuitemradio" data-font="trebuchet">Trebuchet MS</button>
+                            <button type="button" role="menuitemradio" data-font="supercell">Supercell Magic (Clash of Clans)</button>
+                            <button type="button" role="menuitemradio" data-font="minecraft">Minecraft</button>
+                            <button type="button" role="menuitemradio" data-font="minecrafter">Minecrafter (MadPixel)</button>
+                            <button type="button" role="menuitemradio" data-font="minecrafter-alt">Minecrafter Alt (MadPixel)</button>
+                            <button type="button" role="menuitemradio" data-font="tf2">TF2 Build</button>
+                            <button type="button" role="menuitemradio" data-font="overseer">Overseer</button>
+                            <button type="button" role="menuitemradio" data-font="adventure">Adventure Time Logo</button>
+                            <button type="button" role="menuitemradio" data-font="ps-bold">Play Station PS Bold</button>
+                            <button type="button" role="menuitemradio" data-font="ps-old">Play Station PS Old</button>
+                            <button type="button" role="menuitemradio" data-font="zrnic">Zrnic</button>
+                            <button type="button" role="menuitemradio" data-font="zrnic-rg">Zrnic Rg <span>Current</span></button>
                             <button class="font-option-clash" type="button" role="menuitemradio" data-font="clash">Clash-inspired (Lilita One)</button>
                         </div>
                         <p class="font-picker-status" role="status" aria-live="polite"></p>
@@ -45,7 +59,7 @@
         <!-- Hero Section -->
         <section class="hero">
             <video class="bg-video" autoplay muted loop playsinline aria-hidden="true" tabindex="-1">
-                <source src="../assets/bg/minecraft-dog.3840x2160.mp4" type="video/mp4">
+                <source src="../assets/bg/minecraft-dog-1920x1080.mp4" type="video/mp4">
             </video>
             <h1>Hi, I am GabzTRT. Welcome to my side of the block! <span class="hero-tools"><img src="../assets/dirt-block.svg" alt="Dirt block"><img src="../assets/iron-pickaxe.svg" alt="Pixel-art iron pickaxe"></span></h1>
             <p>Focused on simplicity, functionality, and <span class="hero-highlight">CRAFTING</span> experiences...</p>
@@ -63,22 +77,32 @@
                     <p>I build creative designs with clean precise steps that I developed. My background balances technicality and human ingenuity, ensuring that everything I do works seamlessly and feels intentionally.</p>
                     <p>Currently focusing on modern frontend designing, innovative creation, and semantic all around occupational gathering to gain invaluable experiences.</p>
                 </div>
-                <img class="about-image" src="../assets/models/Creeper.jpg" alt="Minecraft Creeper">
+                <img class="about-image" src="../assets/models/Steve_Pickaxe.png" alt="Minecraft character Steve holding a pickaxe">
             </div>
+        </section>
+        <section class="profile-link-section" aria-label="Profile">
+            <a class="profile-button" href="profile.html">
+                <img src="../assets/models/Bookmark.png" alt="" aria-hidden="true">
+                <span>Profile</span>
+            </a>
         </section>
 
         <!-- Projects Section -->
         <section id="projects" class="section">
             <h2 class="section-title">My Works</h2>
             <div class="project-grid">
-                <img class="project-center-golem" src="../assets/models/Golem_Flower.png" alt="Minecraft iron golem holding a flower" aria-hidden="true">
+                <img class="project-center-golem" src="../assets/models/Creeper.png" alt="" aria-hidden="true">
                 
                 <!-- Project 1 -->
                 <article class="project-card">
                     <h3>Catering Services</h3>
                     <p>A brief execution description of what this application does, the problems it solves, and the specific experience that it utilizes.</p>
                     <div class="project-links">
-                        <a href="#" target="_blank">Quickview</a>
+                        <a class="quickview-link" href="#" target="_blank" aria-label="Quickview">
+                            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                                <path fill-rule="evenodd" d="M12 5c-5.2 0-9.4 3-11 7 1.6 4 5.8 7 11 7s9.4-3 11-7c-1.6-4-5.8-7-11-7zm0 10a3 3 0 1 1 0-6 3 3 0 0 1 0 6z"></path>
+                            </svg>
+                        </a>
                         <a href="#" target="_blank">Connections</a>
                     </div>
                 </article>
@@ -88,7 +112,11 @@
                     <h3>Game Enthusiast</h3>
                     <p>A introduction of what my side of the block means, the contents within, and the works it took behind it all.</p>
                     <div class="project-links">
-                        <a href="#" target="_blank">Quickview</a>
+                        <a class="quickview-link" href="#" target="_blank" aria-label="Quickview">
+                            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                                <path fill-rule="evenodd" d="M12 5c-5.2 0-9.4 3-11 7 1.6 4 5.8 7 11 7s9.4-3 11-7c-1.6-4-5.8-7-11-7zm0 10a3 3 0 1 1 0-6 3 3 0 0 1 0 6z"></path>
+                            </svg>
+                        </a>
                         <a href="#" target="_blank">The Block</a>
                     </div>
                 </article>
@@ -98,8 +126,12 @@
                     <h3>Frontend Developer</h3>
                     <p>I build responsive, accessible web experiences with a focus on clean interfaces and dependable functionality.</p>
                     <div class="project-links">
-                        <a href="#" target="_blank">Quickview</a>
-                        <a href="#" target="_blank">Connections</a>
+                        <a class="quickview-link" href="#" target="_blank" aria-label="Quickview">
+                            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                                <path fill-rule="evenodd" d="M12 5c-5.2 0-9.4 3-11 7 1.6 4 5.8 7 11 7s9.4-3 11-7c-1.6-4-5.8-7-11-7zm0 10a3 3 0 1 1 0-6 3 3 0 0 1 0 6z"></path>
+                            </svg>
+                        </a>
+                        <a href="#" target="_blank">Outputs</a>
                     </div>
                 </article>
 
@@ -108,8 +140,12 @@
                     <h3>Troll Expert</h3>
                     <p>Specialist in harmless pranks, playful banter, and keeping the block entertained.</p>
                     <div class="project-links">
-                        <a href="#" target="_blank">Quickview</a>
-                        <a href="#" target="_blank">The Block</a>
+                        <a class="quickview-link" href="#" target="_blank" aria-label="Quickview">
+                            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                                <path fill-rule="evenodd" d="M12 5c-5.2 0-9.4 3-11 7 1.6 4 5.8 7 11 7s9.4-3 11-7c-1.6-4-5.8-7-11-7zm0 10a3 3 0 1 1 0-6 3 3 0 0 1 0 6z"></path>
+                            </svg>
+                        </a>
+                        <a href="#" target="_blank">Contents</a>
                     </div>
                 </article>
 
@@ -119,7 +155,7 @@
         <!-- Contact Section -->
         <section id="contact" class="section">
             <div class="contact-visual">
-                <img class="contact-image" src="../assets/models/Alex_Sword.png" alt="Minecraft character Alex holding a sword">
+                <img class="contact-image" src="../assets/models/Golem_Flower.png" alt="Minecraft iron golem holding a flower">
             </div>
             <div class="contact-details">
                 <h2 class="section-title">Get In Touch</h2>
@@ -142,7 +178,7 @@
                             <path fill="currentColor" d="M23.95 4.57a9.9 9.9 0 0 1-2.83.78 4.94 4.94 0 0 0 2.17-2.72 9.86 9.86 0 0 1-3.13 1.2 4.92 4.92 0 0 0-8.39 4.49A13.98 13.98 0 0 1 1.64 3.16a4.92 4.92 0 0 0 1.52 6.57 4.9 4.9 0 0 1-2.23-.62v.06a4.93 4.93 0 0 0 3.95 4.83 4.93 4.93 0 0 1-2.22.08 4.93 4.93 0 0 0 4.6 3.42A9.88 9.88 0 0 1 0 19.54a13.94 13.94 0 0 0 7.55 2.21c9.06 0 14.02-7.5 14.02-14.02l-.02-.64a10 10 0 0 0 2.45-2.52Z"/>
                         </svg>
                     </a>
-                    <a href="#" target="_blank" aria-label="YouTube">
+                    <a href="https://www.youtube.com/@gabz2723">
                         <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
                             <path fill="currentColor" d="M23.5 6.2a3 3 0 0 0-2.1-2.12C19.55 3.57 12 3.57 12 3.57s-7.55 0-9.4.51A3 3 0 0 0 .5 6.2 31.3 31.3 0 0 0 0 12a31.3 31.3 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.12c1.85.51 9.4.51 9.4.51s7.55 0 9.4-.51a3 3 0 0 0 2.1-2.12A31.3 31.3 0 0 0 24 12a31.3 31.3 0 0 0-.5-5.8ZM9.55 15.58V8.42L15.82 12l-6.27 3.58Z"/>
                         </svg>
@@ -175,7 +211,7 @@
         <p class="container">&copy; 2026 GabzTRT. Built with intent and creativity.</p>
     </footer>
 	
-	<script src="../JAVA/script.js?v=9"></script>
+	<script src="../JAVA/script.js?v=13"></script>
 
 </body>
 </html>

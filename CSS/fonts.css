@@ -1,0 +1,111 @@
+@font-face {
+    font-family: "Supercell Magic";
+    src: url("../assets/fonts/supercell-magic.ttf") format("truetype");
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "Minecraft";
+    src: url("../assets/fonts/minecraft.ttf") format("truetype");
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "Minecrafter";
+    src: url("../assets/fonts/minecrafter.ttf") format("truetype");
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "Minecrafter Alt";
+    src: url("../assets/fonts/minecrafter-alt.ttf") format("truetype");
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "TF2 Build";
+    src: url("../assets/fonts/tf2build.ttf") format("truetype");
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "Overseer";
+    src: url("../assets/fonts/Overseer.otf") format("opentype");
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "Overseer";
+    src: url("../assets/fonts/Overseer Italic.otf") format("opentype");
+    font-style: italic;
+    font-weight: 400;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "Overseer";
+    src: url("../assets/fonts/Overseer Bold.otf") format("opentype");
+    font-style: normal;
+    font-weight: 700;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "Overseer";
+    src: url("../assets/fonts/Overseer Bold Italic.otf") format("opentype");
+    font-style: italic;
+    font-weight: 700;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "Adventure Time Logo";
+    src: url("../assets/fonts/Adventure Time Logo.ttf") format("truetype");
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "PS Bold";
+    src: url("../assets/fonts/Play Station/PsBold-2Oy2w.ttf") format("truetype");
+    font-style: normal;
+    font-weight: 700;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "PS Old";
+    src: url("../assets/fonts/Play Station/PsOld-vmPMD.ttf") format("truetype");
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "Zrnic";
+    src: url("../assets/fonts/Play Station/zrnic___.ttf") format("truetype");
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "Zrnic Rg";
+    src: url("../assets/fonts/Play Station/zrnic rg.ttf") format("truetype");
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+}
