@@ -125,9 +125,306 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     const projectGrid = document.querySelector('.project-grid');
+    const projectPreview = document.querySelector('.project-preview');
+    const projectPreviewClose = document.querySelector('.project-preview-close');
+    const projectPreviewCreators = document.querySelector('.project-creators');
+    const gameplaySlider = projectPreviewCreators.querySelector('.gameplay-slider');
+    const gameplayThumbnail = projectPreviewCreators.querySelector('.gameplay-thumbnail');
+    const gameplayCreator = projectPreviewCreators.querySelector('.gameplay-creator');
+    const gameplaySourceLink = projectPreviewCreators.querySelector('.gameplay-source');
+    const gameplayIndicators = projectPreviewCreators.querySelector('.gameplay-indicators');
+    const gameplayToggle = projectPreviewCreators.querySelector('.gameplay-toggle');
+    const gameplayPauseIcon = projectPreviewCreators.querySelector('.gameplay-pause-icon');
+    const gameplayResumeIcon = projectPreviewCreators.querySelector('.gameplay-resume-icon');
+    const gameplayClips = [
+        {
+            creator: 'DanTDM',
+            alt: 'DanTDM playing Minecraft',
+            gifUrl: 'https://media.tenor.com/mAlNB99pLacAAAAM/dantdm-dan-tdm.gif',
+            sourceUrl: 'https://tenor.com/view/dantdm-dan-tdm-dan-tdm-shock-gif-10955372264763764135',
+            accent: '#2879a9'
+        },
+        {
+            creator: 'Markiplier',
+            alt: "Markiplier playing Five Nights at Freddy's",
+            gifUrl: 'https://media.tenor.com/wnua8kI-818AAAAM/mark-playing-freddy-game-fnaf-markiplier.gif',
+            sourceUrl: 'https://tenor.com/view/mark-playing-freddy-game-fnaf-markiplier-jumpscare-fnaf-gif-14013965030777615199',
+            accent: '#a9363e'
+        },
+        {
+            creator: 'Jacksepticeye',
+            alt: 'Jacksepticeye reacting to a game',
+            gifUrl: 'https://media.tenor.com/J0a63OF2UMoAAAAM/jacksepticeye-scream.gif',
+            sourceUrl: 'https://tenor.com/view/jacksepticeye-scream-screeches-eye-roll-gif-5852266',
+            accent: '#347b45'
+        },
+        {
+            creator: 'PewDiePie',
+            alt: 'PewDiePie playing Minecraft',
+            gifUrl: 'https://media.tenor.com/k_NZIu0sk2QAAAAM/epic-pewdiepie.gif',
+            sourceUrl: 'https://tenor.com/view/epic-pewdiepie-minecraft-water-sheep-funny-gif-19261424',
+            accent: '#b74235'
+        },
+        {
+            creator: 'Sinvicta',
+            alt: 'The Binding of Isaac gameplay',
+            gifUrl: 'https://media.tenor.com/xdd3ZJzFYygAAAAM/isaac-giga-chad.gif',
+            sourceUrl: 'https://tenor.com/view/isaac-giga-chad-isaac-moment-2ez-gif-27629341',
+            accent: '#6d4b99'
+        },
+        {
+            creator: 'ZackScottGames',
+            alt: 'Plants vs. Zombies gameplay',
+            gifUrl: 'https://media.tenor.com/FYT6y9h17H8AAAAM/zombie-pvz.gif',
+            sourceUrl: 'https://tenor.com/view/zombie-pvz-games-gif-1550639925139205247',
+            accent: '#337c6e'
+        }
+    ];
+    const reducedMotionPreference = window.matchMedia('(prefers-reduced-motion: reduce)');
+    let activeGameplayClipIndex = 0;
+    let gameplayTimer = null;
+    let isGameplayAutoplayPaused = reducedMotionPreference.matches;
+    let isGameplayPointerInside = false;
+    let isGameplayFocused = false;
+    const stopGameplayAutoplay = () => {
+        window.clearInterval(gameplayTimer);
+        gameplayTimer = null;
+    };
+    const updateGameplayToggle = () => {
+        gameplayToggle.setAttribute('aria-pressed', String(isGameplayAutoplayPaused));
+        gameplayToggle.setAttribute(
+            'aria-label',
+            `${isGameplayAutoplayPaused ? 'Resume' : 'Pause'} automatic slide rotation`
+        );
+        if (isGameplayAutoplayPaused) {
+            gameplayPauseIcon.setAttribute('hidden', '');
+            gameplayResumeIcon.removeAttribute('hidden');
+        } else {
+            gameplayPauseIcon.removeAttribute('hidden');
+            gameplayResumeIcon.setAttribute('hidden', '');
+        }
+    };
+    const startGameplayAutoplay = () => {
+        stopGameplayAutoplay();
+        if (
+            isGameplayAutoplayPaused
+            || isGameplayPointerInside
+            || isGameplayFocused
+            || document.hidden
+            || !projectPreview.open
+            || projectPreviewCreators.hidden
+        ) {
+            return;
+        }
+
+        gameplayTimer = window.setInterval(() => {
+            showGameplayClip(activeGameplayClipIndex + 1);
+        }, 5000);
+    };
+    const showGameplayClip = (index) => {
+        activeGameplayClipIndex = (index + gameplayClips.length) % gameplayClips.length;
+        const clip = gameplayClips[activeGameplayClipIndex];
+        gameplayThumbnail.classList.remove('is-transitioning');
+        gameplayThumbnail.src = clip.gifUrl;
+        gameplayThumbnail.alt = clip.alt;
+        gameplayCreator.textContent = clip.creator;
+        gameplaySourceLink.href = clip.sourceUrl;
+        gameplaySourceLink.setAttribute('aria-label', `View ${clip.creator} GIF source on Tenor`);
+        gameplaySlider.style.setProperty('--creator-accent', clip.accent);
+        gameplayIndicators.querySelectorAll('.gameplay-indicator').forEach((indicator, indicatorIndex) => {
+            indicator.setAttribute('aria-current', String(indicatorIndex === activeGameplayClipIndex));
+        });
+        requestAnimationFrame(() => gameplayThumbnail.classList.add('is-transitioning'));
+    };
+    gameplayClips.forEach((clip, index) => {
+        const indicator = document.createElement('button');
+        indicator.className = 'gameplay-indicator';
+        indicator.type = 'button';
+        indicator.setAttribute('aria-label', `Show ${clip.creator} gameplay GIF`);
+        indicator.setAttribute('aria-current', 'false');
+        indicator.addEventListener('click', () => {
+            showGameplayClip(index);
+            startGameplayAutoplay();
+        });
+        gameplayIndicators.append(indicator);
+    });
+    gameplayThumbnail.addEventListener('error', () => {
+        console.error(`Unable to load gameplay GIF for ${gameplayClips[activeGameplayClipIndex].creator}.`);
+    });
+    gameplayToggle.addEventListener('click', () => {
+        isGameplayAutoplayPaused = !isGameplayAutoplayPaused;
+        updateGameplayToggle();
+        startGameplayAutoplay();
+    });
+    gameplaySlider.addEventListener('pointerenter', () => {
+        isGameplayPointerInside = true;
+        startGameplayAutoplay();
+    });
+    gameplaySlider.addEventListener('pointerleave', () => {
+        isGameplayPointerInside = false;
+        startGameplayAutoplay();
+    });
+    gameplaySlider.addEventListener('focusin', () => {
+        isGameplayFocused = true;
+        startGameplayAutoplay();
+    });
+    gameplaySlider.addEventListener('focusout', (event) => {
+        if (!gameplaySlider.contains(event.relatedTarget)) {
+            isGameplayFocused = false;
+            startGameplayAutoplay();
+        }
+    });
+    document.addEventListener('visibilitychange', startGameplayAutoplay);
+    updateGameplayToggle();
+    showGameplayClip(activeGameplayClipIndex);
+    const projectPreviewTemplates = {
+        'Catering Services': {
+            eyebrow: 'Catering & events',
+            description: 'A preview template for a catering services project. Replace these prompts with your menus, event details, and booking information.',
+            screenTitle: 'Catering experience',
+            screenCopy: 'Add a featured menu, event photo, or a short introduction to your catering services.',
+            sections: [
+                ['Menu & services', 'Add menu options, packages, and service details.'],
+                ['Event planning', 'Add event types, planning steps, and availability.'],
+                ['Bookings', 'Add inquiry details or a booking call to action.']
+            ]
+        },
+        'Game Enthusiast': {
+            eyebrow: 'Gaming & community',
+            description: 'A preview template for a gaming project. Use these sections for the games, features, and community details you want to share.',
+            screenTitle: 'Gaming hub',
+            screenCopy: 'Add a featured game, gameplay image, or an introduction to your gaming interests.',
+            sections: [
+                ['Games & genres', 'Add favorite games, genres, and highlights.'],
+                ['Features', 'Add guides, reviews, streams, or other project features.'],
+                ['Community', 'Add multiplayer, events, or community information.']
+            ]
+        },
+        'Frontend Developer': {
+            eyebrow: 'Frontend development',
+            description: 'A preview template for a frontend development project. Replace these prompts with your work, tools, and approach.',
+            screenTitle: 'Frontend portfolio',
+            screenCopy: 'Add a product screenshot, live preview, or a short project introduction.',
+            sections: [
+                ['Featured work', 'Add project summaries, images, and links.'],
+                ['Tools & skills', 'Add the technologies and skills used.'],
+                ['Process', 'Add your role, design decisions, and outcomes.']
+            ]
+        },
+        'Troll Expert': {
+            eyebrow: 'Playful concepts',
+            description: 'A preview template for lighthearted pranks and playful ideas. Keep every prank kind, consensual, and harmless.',
+            screenTitle: 'Harmless fun',
+            screenCopy: 'Add a playful concept, funny story, or visual from the project.',
+            sections: [
+                ['Prank ideas', 'Add harmless, good-natured concepts.'],
+                ['Funny moments', 'Add stories, reactions, or favorite moments.'],
+                ['Ground rules', 'Add how you keep the fun respectful and safe.']
+            ]
+        }
+    };
+    let projectPreviewOpener;
+    let projectPreviewAnimation;
+    let isProjectPreviewClosing = false;
     const projectCardAnimations = new WeakMap();
     let pointerProjectCard;
     let focusProjectCard;
+
+    const closeProjectPreview = () => {
+        if (!projectPreview.open || isProjectPreviewClosing) {
+            return;
+        }
+
+        isProjectPreviewClosing = true;
+        stopGameplayAutoplay();
+        if (!projectPreviewAnimation) {
+            projectPreview.close();
+            return;
+        }
+
+        projectPreviewAnimation.onfinish = () => {
+            const finishedAnimation = projectPreviewAnimation;
+            projectPreviewAnimation = null;
+            finishedAnimation.cancel();
+            projectPreview.close();
+        };
+        projectPreviewAnimation.reverse();
+    };
+
+    projectGrid.addEventListener('click', (event) => {
+        const previewButton = event.target.closest('.quickview-link');
+        if (!previewButton) {
+            return;
+        }
+
+        const card = previewButton.closest('.project-card');
+        const title = card.querySelector('h3').textContent.trim();
+        const template = projectPreviewTemplates[title];
+        if (!template) {
+            console.error(`No project preview template is configured for "${title}".`);
+            return;
+        }
+
+        projectPreview.querySelector('#project-preview-eyebrow').textContent = template.eyebrow;
+        projectPreview.querySelector('#project-preview-title').textContent = title;
+        projectPreview.querySelector('#project-preview-description').textContent = template.description;
+        projectPreview.querySelector('#project-preview-screen-title').textContent = template.screenTitle;
+        projectPreview.querySelector('#project-preview-screen-copy').textContent = template.screenCopy;
+        template.sections.forEach(([sectionTitle, sectionCopy], index) => {
+            const sectionNumber = ['one', 'two', 'three'][index];
+            projectPreview.querySelector(`#project-preview-section-${sectionNumber}-title`).textContent = sectionTitle;
+            projectPreview.querySelector(`#project-preview-section-${sectionNumber}-copy`).textContent = sectionCopy;
+        });
+
+        projectPreviewCreators.hidden = title !== 'Game Enthusiast';
+        stopGameplayAutoplay();
+        projectPreviewOpener = previewButton;
+        isProjectPreviewClosing = false;
+        projectPreview.showModal();
+        if (!projectPreviewCreators.hidden) {
+            showGameplayClip(0);
+            startGameplayAutoplay();
+        }
+        const triggerBounds = previewButton.getBoundingClientRect();
+        const dialogBounds = projectPreview.getBoundingClientRect();
+        projectPreview.style.transformOrigin = `${triggerBounds.left + triggerBounds.width / 2 - dialogBounds.left}px ${triggerBounds.top + triggerBounds.height / 2 - dialogBounds.top}px`;
+
+        projectPreviewAnimation = projectPreview.animate(
+            [
+                { opacity: 0, transform: 'scale(0.08)', filter: 'blur(8px)' },
+                { opacity: 1, transform: 'scale(1.035)', filter: 'blur(0)', offset: 0.78 },
+                { opacity: 1, transform: 'scale(1)', filter: 'blur(0)' }
+            ],
+            {
+                duration: 680,
+                easing: 'cubic-bezier(0.16, 1, 0.3, 1)',
+                fill: 'both'
+            }
+        );
+    });
+
+    projectPreviewClose.addEventListener('click', closeProjectPreview);
+    projectPreview.addEventListener('keydown', (event) => {
+        if (event.key === 'Escape') {
+            event.preventDefault();
+            closeProjectPreview();
+        }
+    });
+    projectPreview.addEventListener('cancel', (event) => {
+        event.preventDefault();
+        closeProjectPreview();
+    });
+    projectPreview.addEventListener('click', (event) => {
+        if (event.target === projectPreview) {
+            closeProjectPreview();
+        }
+    });
+    projectPreview.addEventListener('close', () => {
+        if (projectPreviewOpener?.isConnected) {
+            projectPreviewOpener.focus();
+        }
+        projectPreviewOpener = null;
+    });
 
     const animateProjectCardProperty = (card, property, target, duration, pseudoElement = null) => {
         let animations = projectCardAnimations.get(card);

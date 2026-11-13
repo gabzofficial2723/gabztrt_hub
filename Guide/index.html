@@ -1,0 +1,1273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#183c2b">
+    <title>ProjectPort Owner's Guide</title>
+    <style>
+        :root {
+            color-scheme: light;
+            --ink: #20352b;
+            --muted: #627568;
+            --green: #2e7d4d;
+            --green-dark: #183c2b;
+            --green-soft: #e8f3e8;
+            --gold: #f0c66c;
+            --paper: #f7faf4;
+            --line: #dce8dc;
+            --code: #172a22;
+            --shadow: 0 16px 40px rgba(27, 57, 39, 0.1);
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            scroll-padding-top: 24px;
+        }
+
+        body {
+            margin: 0;
+            color: var(--ink);
+            background:
+                linear-gradient(rgba(46, 125, 77, 0.045) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(46, 125, 77, 0.045) 1px, transparent 1px),
+                var(--paper);
+            background-size: 32px 32px;
+            font-family: Inter, "Segoe UI", Arial, sans-serif;
+            line-height: 1.65;
+        }
+
+        a {
+            color: #17613a;
+        }
+
+        a:hover {
+            color: #0e4528;
+        }
+
+        a:focus-visible,
+        summary:focus-visible {
+            outline: 3px solid #e2a72c;
+            outline-offset: 3px;
+            border-radius: 4px;
+        }
+
+        .topbar {
+            position: sticky;
+            top: 0;
+            z-index: 5;
+            display: flex;
+            min-height: 60px;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            padding: 10px clamp(18px, 5vw, 64px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+            color: #f8fff8;
+            background: rgba(24, 60, 43, 0.96);
+            backdrop-filter: blur(12px);
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: inherit;
+            font-weight: 800;
+            text-decoration: none;
+        }
+
+        .brand-mark {
+            display: grid;
+            width: 32px;
+            height: 32px;
+            place-items: center;
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            border-radius: 9px;
+            color: var(--green-dark);
+            background: var(--gold);
+        }
+
+        .topbar-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+
+        .topbar-links a {
+            color: #e4f2e7;
+            font-size: 0.9rem;
+            text-decoration: none;
+        }
+
+        .hero {
+            position: relative;
+            overflow: hidden;
+            padding: clamp(48px, 8vw, 96px) clamp(20px, 7vw, 96px) 68px;
+            color: #f5fff6;
+            background:
+                radial-gradient(circle at 85% 20%, rgba(240, 198, 108, 0.22), transparent 25%),
+                linear-gradient(130deg, #173b2a, #256342 65%, #32784d);
+        }
+
+        .hero::after {
+            position: absolute;
+            right: 7%;
+            bottom: -96px;
+            width: 250px;
+            height: 250px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 40px;
+            content: "";
+            transform: rotate(35deg);
+        }
+
+        .hero-inner,
+        .layout {
+            width: min(1200px, 100%);
+            margin-inline: auto;
+        }
+
+        .eyebrow {
+            margin: 0 0 12px;
+            color: #ffdb8d;
+            font-size: 0.78rem;
+            font-weight: 800;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+        }
+
+        .hero h1 {
+            max-width: 760px;
+            margin: 0;
+            font-size: clamp(2.4rem, 6vw, 4.7rem);
+            letter-spacing: -0.055em;
+            line-height: 1.05;
+        }
+
+        .hero-copy {
+            max-width: 680px;
+            margin: 20px 0 28px;
+            color: #dbece0;
+            font-size: clamp(1rem, 2vw, 1.15rem);
+        }
+
+        .hero-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .button {
+            display: inline-flex;
+            min-height: 44px;
+            align-items: center;
+            justify-content: center;
+            padding: 10px 16px;
+            border: 1px solid rgba(255, 255, 255, 0.35);
+            border-radius: 10px;
+            color: #fff;
+            background: rgba(255, 255, 255, 0.1);
+            font-weight: 700;
+            text-decoration: none;
+        }
+
+        .button.primary {
+            border-color: var(--gold);
+            color: #263b2c;
+            background: var(--gold);
+        }
+
+        .layout {
+            display: grid;
+            grid-template-columns: 220px minmax(0, 1fr);
+            gap: 32px;
+            padding: 34px 20px 72px;
+        }
+
+        .side-nav {
+            position: sticky;
+            top: 82px;
+            align-self: start;
+            max-height: calc(100vh - 100px);
+            padding: 16px;
+            border: 1px solid var(--line);
+            border-radius: 16px;
+            background: rgba(255, 255, 255, 0.9);
+            box-shadow: var(--shadow);
+            overflow-y: auto;
+        }
+
+        .side-nav p {
+            margin: 0 0 8px;
+            color: var(--muted);
+            font-size: 0.75rem;
+            font-weight: 800;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+        }
+
+        .side-nav a {
+            display: block;
+            padding: 7px 9px;
+            border-radius: 8px;
+            color: var(--ink);
+            font-size: 0.88rem;
+            text-decoration: none;
+        }
+
+        .side-nav a:hover {
+            background: var(--green-soft);
+        }
+
+        .content {
+            min-width: 0;
+        }
+
+        .guide-section {
+            margin-bottom: 24px;
+            padding: clamp(22px, 4vw, 38px);
+            border: 1px solid var(--line);
+            border-radius: 20px;
+            background: rgba(255, 255, 255, 0.95);
+            box-shadow: var(--shadow);
+        }
+
+        .section-head {
+            display: flex;
+            align-items: flex-start;
+            gap: 14px;
+            margin-bottom: 18px;
+        }
+
+        .section-number {
+            display: grid;
+            width: 38px;
+            height: 38px;
+            flex: 0 0 38px;
+            place-items: center;
+            border-radius: 12px;
+            color: #fff;
+            background: var(--green);
+            font-weight: 800;
+        }
+
+        h2,
+        h3,
+        p {
+            overflow-wrap: anywhere;
+        }
+
+        h2 {
+            margin: 0;
+            font-size: clamp(1.45rem, 3vw, 2rem);
+            letter-spacing: -0.03em;
+            line-height: 1.2;
+        }
+
+        h3 {
+            margin: 0 0 8px;
+            font-size: 1.05rem;
+            line-height: 1.3;
+        }
+
+        p {
+            margin: 0 0 12px;
+        }
+
+        .lead {
+            color: var(--muted);
+            font-size: 1.02rem;
+        }
+
+        .small-note {
+            color: var(--muted);
+            font-size: 0.9rem;
+        }
+
+        .file-map {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 14px;
+            margin-top: 20px;
+        }
+
+        .file-card {
+            min-width: 0;
+            padding: 18px;
+            border: 1px solid var(--line);
+            border-radius: 14px;
+            background: linear-gradient(145deg, #fff, #f3f8f1);
+        }
+
+        .file-card .file-icon {
+            display: inline-grid;
+            width: 34px;
+            height: 34px;
+            margin-bottom: 10px;
+            place-items: center;
+            border-radius: 10px;
+            color: #174b2e;
+            background: #e2f1e4;
+            font-size: 0.8rem;
+            font-weight: 900;
+        }
+
+        .file-card p {
+            margin-bottom: 8px;
+            color: var(--muted);
+            font-size: 0.91rem;
+        }
+
+        .file-card ul,
+        .check-list,
+        .number-list {
+            margin: 10px 0 0;
+            padding-left: 20px;
+        }
+
+        .file-card li,
+        .check-list li,
+        .number-list li {
+            margin: 6px 0;
+        }
+
+        .file-card a {
+            font-weight: 700;
+            text-decoration-thickness: 1px;
+            text-underline-offset: 3px;
+        }
+
+        .flow {
+            display: grid;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            gap: 10px;
+            margin-top: 22px;
+        }
+
+        .flow-step {
+            position: relative;
+            padding: 15px 12px;
+            border: 1px solid var(--line);
+            border-radius: 13px;
+            background: #f8fbf6;
+            text-align: center;
+        }
+
+        .flow-step strong {
+            display: block;
+            margin-bottom: 4px;
+            color: var(--green-dark);
+        }
+
+        .flow-step span {
+            color: var(--muted);
+            font-size: 0.84rem;
+        }
+
+        .tree,
+        pre {
+            max-width: 100%;
+            margin: 14px 0;
+            padding: 18px;
+            border: 1px solid #294638;
+            border-radius: 12px;
+            color: #e3f2e8;
+            background: var(--code);
+            font-family: Consolas, "Courier New", monospace;
+            font-size: 0.84rem;
+            line-height: 1.65;
+            overflow-x: auto;
+            tab-size: 4;
+        }
+
+        code {
+            padding: 0.12em 0.35em;
+            border-radius: 5px;
+            color: #174b2e;
+            background: #e9f4e9;
+            font-family: Consolas, "Courier New", monospace;
+            font-size: 0.92em;
+            overflow-wrap: anywhere;
+        }
+
+        pre code {
+            padding: 0;
+            color: inherit;
+            background: transparent;
+            overflow-wrap: normal;
+        }
+
+        .callout {
+            margin: 16px 0;
+            padding: 14px 16px;
+            border-left: 4px solid #d59b27;
+            border-radius: 0 10px 10px 0;
+            color: #51421f;
+            background: #fff7e2;
+        }
+
+        .callout strong {
+            display: block;
+            margin-bottom: 3px;
+        }
+
+        .two-column {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 14px;
+        }
+
+        .table-wrap {
+            max-width: 100%;
+            margin: 16px 0;
+            overflow-x: auto;
+            border: 1px solid var(--line);
+            border-radius: 12px;
+        }
+
+        .guide-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: #fff;
+            font-size: 0.88rem;
+        }
+
+        .guide-table th,
+        .guide-table td {
+            padding: 11px 13px;
+            border-bottom: 1px solid var(--line);
+            text-align: left;
+            vertical-align: top;
+        }
+
+        .guide-table th {
+            color: #fff;
+            background: var(--green-dark);
+            font-size: 0.82rem;
+        }
+
+        .guide-table tr:last-child td {
+            border-bottom: 0;
+        }
+
+        .guide-table td:first-child {
+            min-width: 145px;
+            font-weight: 700;
+        }
+
+        .mini-card {
+            padding: 16px;
+            border: 1px solid var(--line);
+            border-radius: 13px;
+            background: #fbfdf9;
+        }
+
+        .mini-card > :last-child {
+            margin-bottom: 0;
+        }
+
+        .tag {
+            display: inline-block;
+            margin: 2px 4px 2px 0;
+            padding: 3px 8px;
+            border-radius: 999px;
+            color: #27563a;
+            background: #e7f2e7;
+            font-size: 0.78rem;
+            font-weight: 700;
+        }
+
+        details {
+            margin: 12px 0;
+            border: 1px solid var(--line);
+            border-radius: 12px;
+            background: #fbfdf9;
+        }
+
+        summary {
+            padding: 13px 15px;
+            color: var(--green-dark);
+            font-weight: 800;
+            cursor: pointer;
+        }
+
+        details .details-body {
+            padding: 0 16px 16px;
+        }
+
+        .steps {
+            counter-reset: step;
+            display: grid;
+            gap: 12px;
+            margin: 18px 0;
+            padding: 0;
+            list-style: none;
+        }
+
+        .steps li {
+            counter-increment: step;
+            display: grid;
+            grid-template-columns: 36px minmax(0, 1fr);
+            gap: 12px;
+            align-items: start;
+            padding: 14px;
+            border: 1px solid var(--line);
+            border-radius: 13px;
+            background: #fbfdf9;
+        }
+
+        .steps li::before {
+            display: grid;
+            width: 32px;
+            height: 32px;
+            place-items: center;
+            border-radius: 10px;
+            color: #fff;
+            background: var(--green);
+            content: counter(step);
+            font-weight: 800;
+        }
+
+        .steps p {
+            margin: 4px 0 0;
+            color: var(--muted);
+        }
+
+        .warning {
+            border-left-color: #bf5546;
+            color: #642b26;
+            background: #fff0ed;
+        }
+
+        .footer {
+            padding: 28px 20px 42px;
+            color: #dcebe0;
+            background: var(--green-dark);
+            text-align: center;
+        }
+
+        .footer a {
+            color: #ffe09a;
+        }
+
+        @media (max-width: 850px) {
+            .layout {
+                grid-template-columns: 1fr;
+                gap: 18px;
+            }
+
+            .side-nav {
+                position: static;
+                display: flex;
+                max-height: none;
+                flex-wrap: wrap;
+                align-items: center;
+                gap: 4px;
+            }
+
+            .side-nav p {
+                width: 100%;
+            }
+
+            .side-nav a {
+                padding: 6px 8px;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .topbar {
+                align-items: flex-start;
+                flex-direction: column;
+            }
+
+            .topbar-links {
+                gap: 12px;
+            }
+
+            .file-map,
+            .two-column {
+                grid-template-columns: 1fr;
+            }
+
+            .flow {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+
+            .guide-section {
+                padding: 21px 17px;
+            }
+
+            .tree,
+            pre {
+                padding: 14px;
+                font-size: 0.76rem;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            html {
+                scroll-behavior: auto;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="topbar">
+        <a class="brand" href="../index.html">
+            <span class="brand-mark" aria-hidden="true">P</span>
+            <span>ProjectPort Owner's Guide</span>
+        </a>
+        <nav class="topbar-links" aria-label="Main links">
+            <a href="../HTML/index.html">Open the website</a>
+            <a href="https://github.com/gabzofficial2723/gabztrt_hub" target="_blank" rel="noopener noreferrer">Open GitHub repository</a>
+        </nav>
+    </header>
+
+    <section class="hero">
+        <div class="hero-inner">
+            <p class="eyebrow">A visual, do-it-yourself handbook</p>
+            <h1>Your site.<br>Your files.<br>Your GitHub.</h1>
+            <p class="hero-copy">A friendly map for changing ProjectPort's words, pictures, layout, and behavior, checking the result, and saving your work to the repository.</p>
+            <div class="hero-actions">
+                <a class="button primary" href="#file-map">Start with the file map</a>
+                <a class="button" href="#github">Jump to updating GitHub</a>
+            </div>
+        </div>
+    </section>
+
+    <div class="layout">
+        <nav class="side-nav" aria-label="Guide contents">
+            <p>In this guide</p>
+            <a href="#file-map">1. File map</a>
+            <a href="#open-edit">2. Open and edit</a>
+            <a href="#html">3. HTML: content</a>
+            <a href="#css">4. CSS: appearance</a>
+            <a href="#javascript">5. JavaScript: behavior</a>
+            <a href="#blueprint">6. Layout blueprint</a>
+            <a href="#interaction-map">7. Interaction map</a>
+            <a href="#alternatives">8. Alternatives &amp; workflow</a>
+            <a href="#new-project">9. Add a project</a>
+            <a href="#assets">10. Images and fonts</a>
+            <a href="#test">11. Preview and troubleshoot</a>
+            <a href="#github">12. Update GitHub</a>
+        </nav>
+
+        <main class="content">
+            <section class="guide-section" id="file-map">
+                <div class="section-head">
+                    <span class="section-number">1</span>
+                    <div>
+                        <h2>First, know which file does what</h2>
+                        <p class="lead">Most edits follow a simple chain: HTML is the content, CSS is the look, JavaScript is the interaction, and assets are the pictures and fonts.</p>
+                    </div>
+                </div>
+
+                <div class="flow" aria-label="How the site files work together">
+                    <div class="flow-step"><strong>HTML</strong><span>What is on the page?</span></div>
+                    <div class="flow-step"><strong>CSS</strong><span>How should it look?</span></div>
+                    <div class="flow-step"><strong>JavaScript</strong><span>What should it do?</span></div>
+                    <div class="flow-step"><strong>Assets</strong><span>Which pictures and fonts?</span></div>
+                </div>
+
+                <div class="file-map">
+                    <article class="file-card">
+                        <span class="file-icon">WEB</span>
+                        <h3>Main website</h3>
+                        <p>Start here for the home page and My Works section.</p>
+                        <ul>
+                            <li><a href="../HTML/index.html">HTML/index.html</a> — home page content and project preview dialog.</li>
+                            <li><a href="../CSS/style.css">CSS/style.css</a> — home page layout, colors, responsive styles, and previews.</li>
+                            <li><a href="../JAVA/script.js">JAVA/script.js</a> — fonts menu, navigation, project previews, and page interactions.</li>
+                        </ul>
+                    </article>
+                    <article class="file-card">
+                        <span class="file-icon">ME</span>
+                        <h3>Profile page</h3>
+                        <p>Edit the portfolio/profile template separately from the home page.</p>
+                        <ul>
+                            <li><a href="../HTML/profile.html">HTML/profile.html</a> — name, bio, skills, experience, projects, and contact.</li>
+                            <li><a href="../CSS/profile.css">CSS/profile.css</a> — profile-specific layout and colors.</li>
+                        </ul>
+                    </article>
+                    <article class="file-card">
+                        <span class="file-icon">BUN</span>
+                        <h3>Bunny Vault</h3>
+                        <p>This page has its own styling and photo/folder interactions.</p>
+                        <ul>
+                            <li><a href="../HTML/bunny.html">HTML/bunny.html</a> — page structure and dialog elements.</li>
+                            <li><a href="../CSS/bunny.css">CSS/bunny.css</a> — gallery, folder, and photo-viewer appearance.</li>
+                            <li><a href="../JAVA/bunny.js">JAVA/bunny.js</a> — folders, photo upload, zoom, rename, and delete behavior.</li>
+                        </ul>
+                    </article>
+                    <article class="file-card">
+                        <span class="file-icon">ALL</span>
+                        <h3>Shared files and assets</h3>
+                        <p>Used by more than one page or referenced by the page styles.</p>
+                        <ul>
+                            <li><a href="../CSS/fonts.css">CSS/fonts.css</a> — custom font file declarations.</li>
+                            <li><code>assets/</code> — pictures, backgrounds, models, icons, and fonts.</li>
+                            <li><a href="../index.html">index.html</a> — the small root page that redirects to the home page.</li>
+                        </ul>
+                    </article>
+                </div>
+
+                <pre class="tree" aria-label="Project folder diagram">ProjectPort/
+├── index.html              root redirect to the website
+├── HTML/                   the three page structures
+├── CSS/                    shared and page-specific styles
+├── JAVA/                   page interactions (JavaScript files)
+├── assets/
+│   ├── bg/                 backgrounds and video
+│   ├── fonts/              custom fonts
+│   ├── models/             character/model images
+│   └── pictures/           photos and thumbnails
+└── Guide/
+    └── index.html          this handbook</pre>
+                <p class="small-note">The folder is named <code>JAVA</code>, but <code>script.js</code> and <code>bunny.js</code> are JavaScript files. The name is simply how this project is organized.</p>
+            </section>
+
+            <section class="guide-section" id="open-edit">
+                <div class="section-head">
+                    <span class="section-number">2</span>
+                    <div>
+                        <h2>Open the project and make a safe edit</h2>
+                        <p class="lead">Open the whole ProjectPort folder in VS Code, not just one file. That keeps the file tree visible and makes relative asset paths easier to understand.</p>
+                    </div>
+                </div>
+                <ol class="steps">
+                    <li><div><strong>Open the folder.</strong><p>In VS Code, choose <b>File → Open Folder…</b> and select <code>ProjectPort</code>. Find files in the Explorer on the left.</p></div></li>
+                    <li><div><strong>Choose the matching page and file.</strong><p>Words usually live in an HTML file. Appearance usually lives in CSS. Clicks and other behavior usually live in JavaScript.</p></div></li>
+                    <li><div><strong>Make a small change and save it.</strong><p>Press <kbd>Ctrl+S</kbd> (Windows) after editing. Save before refreshing the browser.</p></div></li>
+                    <li><div><strong>Preview and check your work.</strong><p>Open <code>HTML/index.html</code> in a browser to preview the main site, then try the relevant buttons and a narrow/mobile window.</p></div></li>
+                    <li><div><strong>Review the changed files.</strong><p>Use VS Code's Source Control view or <code>git status</code> before sending anything to GitHub.</p></div></li>
+                </ol>
+                <div class="callout">
+                    <strong>Good first edit</strong>
+                    Change one paragraph in <code>HTML/index.html</code>, save it, refresh the page, and confirm the new words appear. Then try a CSS color change and undo it with <kbd>Ctrl+Z</kbd>.
+                </div>
+            </section>
+
+            <section class="guide-section" id="html">
+                <div class="section-head">
+                    <span class="section-number">3</span>
+                    <div>
+                        <h2>HTML: edit the words and page structure</h2>
+                        <p class="lead">HTML tags describe what each piece is: a heading, paragraph, image, link, button, or section.</p>
+                    </div>
+                </div>
+                <div class="two-column">
+                    <article class="mini-card">
+                        <h3>Change text</h3>
+                        <p>In the matching HTML page, replace the words between the opening and closing tags. Keep the tags themselves.</p>
+                        <pre><code>&lt;h2&gt;About Me&lt;/h2&gt;
+&lt;p&gt;Write your new paragraph here.&lt;/p&gt;</code></pre>
+                    </article>
+                    <article class="mini-card">
+                        <h3>Change a link</h3>
+                        <p>The destination is the <code>href</code>. A link such as <code>#projects</code> jumps to an element whose <code>id</code> is <code>projects</code>.</p>
+                        <pre><code>&lt;a href="#projects"&gt;See projects&lt;/a&gt;
+&lt;section id="projects"&gt;...&lt;/section&gt;</code></pre>
+                    </article>
+                </div>
+                <div class="callout">
+                    <strong>Keep names paired</strong>
+                    If a link uses <code>href="#contact"</code>, the page needs an element with <code>id="contact"</code>. A <code>class</code> can be reused on many elements; an <code>id</code> should identify one unique element on that page.
+                </div>
+                <details>
+                    <summary>What should I edit on each page?</summary>
+                    <div class="details-body">
+                        <ul class="check-list">
+                            <li><b>Home:</b> text, navigation, About, My Works cards, contact details, and the project preview dialog are in <code>HTML/index.html</code>.</li>
+                            <li><b>Profile:</b> replace the template name, role, intro, skills, experience, project names, and contact prompts in <code>HTML/profile.html</code>.</li>
+                            <li><b>Bunny Vault:</b> its page structure and button/dialog placeholders are in <code>HTML/bunny.html</code>. The gallery itself is built by <code>JAVA/bunny.js</code>.</li>
+                            <li><b>Page title and icon:</b> edit the <code>&lt;title&gt;</code> or favicon link near the top of the relevant HTML file.</li>
+                        </ul>
+                    </div>
+                </details>
+            </section>
+
+            <section class="guide-section" id="css">
+                <div class="section-head">
+                    <span class="section-number">4</span>
+                    <div>
+                        <h2>CSS: change how the site looks</h2>
+                        <p class="lead">A CSS selector finds an element; the declarations inside its braces change its appearance.</p>
+                    </div>
+                </div>
+                <pre><code>.project-card {
+    padding: 24px;
+    border-radius: 20px;
+    background-color: #e3f0d6;
+}</code></pre>
+                <div class="two-column">
+                    <article class="mini-card">
+                        <h3>Which stylesheet?</h3>
+                        <p><code>CSS/style.css</code> is the main site's styles. <code>CSS/profile.css</code> and <code>CSS/bunny.css</code> add styles for their own pages. <code>CSS/fonts.css</code> defines custom fonts.</p>
+                    </article>
+                    <article class="mini-card">
+                        <h3>Match the selector</h3>
+                        <p><code>.project-card</code> targets the class <code>class="project-card"</code>. <code>#about</code> targets the unique <code>id="about"</code>. A missing dot or hash means a different selector.</p>
+                    </article>
+                </div>
+                <details>
+                    <summary>Common style changes</summary>
+                    <div class="details-body">
+                        <ul>
+                            <li>Color: change <code>color</code> for text or <code>background</code>/<code>background-color</code> for a surface.</li>
+                            <li>Spacing: adjust <code>padding</code> inside an element or <code>margin</code> outside it.</li>
+                            <li>Size: adjust <code>font-size</code>, <code>width</code>, <code>height</code>, or <code>max-width</code>.</li>
+                            <li>Roundness: adjust <code>border-radius</code>.</li>
+                            <li>Phone layout: find the <code>@media</code> rules near the bottom of the stylesheet; these styles apply at smaller screen widths.</li>
+                        </ul>
+                    </div>
+                </details>
+                <div class="callout">
+                    <strong>Start with the existing rule</strong>
+                    Search the CSS file for the class name you see in the HTML. Change its existing rule before adding a new one so you do not accidentally create two conflicting styles.
+                </div>
+            </section>
+
+            <section class="guide-section" id="javascript">
+                <div class="section-head">
+                    <span class="section-number">5</span>
+                    <div>
+                        <h2>JavaScript: change what happens</h2>
+                        <p class="lead">JavaScript listens for events, finds HTML elements, and updates the page or opens a feature.</p>
+                    </div>
+                </div>
+                <div class="file-map">
+                    <article class="file-card">
+                        <span class="file-icon">JS</span>
+                        <h3><code>JAVA/script.js</code></h3>
+                        <p>Main page behaviors:</p>
+                        <ul>
+                            <li>Font picker and saved font choice.</li>
+                            <li>Project preview text by project title.</li>
+                            <li>Navigation, smooth scrolling, project-card interaction, and page reveals.</li>
+                        </ul>
+                    </article>
+                    <article class="file-card">
+                        <span class="file-icon">JS</span>
+                        <h3><code>JAVA/bunny.js</code></h3>
+                        <p>Bunny Vault behaviors:</p>
+                        <ul>
+                            <li>Folder and image gallery controls.</li>
+                            <li>Photo viewing, zoom, rename, and delete actions.</li>
+                            <li>Browser permission and local folder saving.</li>
+                        </ul>
+                    </article>
+                </div>
+                <pre><code>button.addEventListener('click', () =&gt; {
+    message.textContent = 'The button was clicked!';
+});</code></pre>
+                <p class="small-note">In the actual scripts, the page waits until its HTML has loaded before attaching its event listeners. When changing a behavior, search for the button's class or ID in the script and read the nearby code before editing.</p>
+                <div class="callout warning">
+                    <strong>Bunny Vault stores things locally</strong>
+                    The Vault asks permission to use a folder on your computer. Read the browser prompt carefully, choose the intended ProjectPort folder, and keep a backup of photos you care about.
+                </div>
+            </section>
+
+            <section class="guide-section" id="blueprint">
+                <div class="section-head">
+                    <span class="section-number">6</span>
+                    <div>
+                        <h2>Layout blueprint: how each page is built</h2>
+                        <p class="lead">This is a practical map of the current HTML structure and the real CSS sizes in the project. Treat the values as the site's current design settings—not rules that every website must use.</p>
+                    </div>
+                </div>
+
+                <div class="callout">
+                    <strong>How to read the measurements</strong>
+                    Measurements below are CSS pixels unless marked <code>rem</code>, <code>vw</code>, <code>vh</code>, or <code>fr</code>. With the browser's usual 16px root size, <code>1rem</code> is 16 CSS pixels. A CSS pixel is not always one physical screen pixel. <code>clamp(min, preferred, max)</code> grows with the viewport but stays within its minimum and maximum.
+                </div>
+
+                <pre class="tree" aria-label="Page structure map">Home: HTML/index.html
+header (fixed navigation and font menu)
+main
+├── .hero (background video, heading and intro)
+├── #about (heading, biography card and character art)
+├── .profile-link-section (button to profile.html)
+├── #projects (four project cards and preview dialog)
+│   └── Game Enthusiast preview (GIF slider and six creator cards)
+└── #contact (character art, email and social links)
+footer
+
+Profile: HTML/profile.html
+header → .profile-main → .profile-hero → About → Skills
+→ Experience → Selected projects → Contact
+
+Bunny Vault: HTML/bunny.html
+.vault-topbar → .vault-main → folder actions → #folder-list
+→ photo dialog → image viewer / rename dialog / delete dialog</pre>
+
+                <h3>Homepage: shared frame and main sections</h3>
+                <div class="table-wrap">
+                    <table class="guide-table">
+                        <thead><tr><th>Part</th><th>Current CSS measurements</th><th>What they control / where to edit</th></tr></thead>
+                        <tbody>
+                            <tr><td>Page frame</td><td><code>--max-width: 800px</code>; shared <code>.container</code> padding <code>0 24px</code>. <code>main.container</code> deliberately resets to full width.</td><td>The header contents use the centered container; the main sections span the page and set their own side gutters. Edit <a href="../CSS/style.css">CSS/style.css</a> at <code>:root</code>, <code>.container</code>, and <code>main.container</code>.</td></tr>
+                            <tr><td>Header / navigation</td><td>Fixed to top; full viewport width; navigation height <code>70px</code>; body top padding <code>70px</code>; desktop logo <code>110 × 50px</code>.</td><td>The matching body padding keeps content below the fixed bar. If you change the header height, update the body offset and section scroll offset too.</td></tr>
+                            <tr><td>Background grid</td><td><code>36 × 36px</code> repeating grid; grid line tint uses <code>--accent</code>.</td><td>Adjust <code>background-size</code> in <code>body</code> to make grid squares larger or smaller.</td></tr>
+                            <tr><td>Section rhythm</td><td><code>.section</code>: <code>80px</code> top and <code>40px</code> bottom padding; sections and hero have <code>48px</code> bottom margin.</td><td>Padding is inside each section; margin creates space between neighboring blocks. Edit <code>.section</code> and <code>.hero, .section</code>.</td></tr>
+                            <tr><td>Side gutters</td><td>About, projects, and contact use <code>clamp(24px, 8vw, 120px)</code> at the sides.</td><td>This keeps content away from the screen edge while allowing the gutter to grow on wide screens. Search for <code>#about</code>, <code>#projects</code>, and <code>#contact</code>.</td></tr>
+                            <tr><td>Hero</td><td>Desktop height <code>min(56.25vw, 850px)</code>, minimum <code>560px</code>; padding <code>100px clamp(24px, 12vw, 180px) 60px</code>. Heading max width <code>560px</code>.</td><td>Video is decorative and uses <code>object-fit: cover</code>. On phones the hero becomes <code>75vh</code>, minimum <code>600px</code>, with <code>96px 24px 48px</code> padding. Edit <code>.hero</code> and its mobile override.</td></tr>
+                            <tr><td>About</td><td>Two columns at <code>1.4fr / 0.6fr</code>; image side has a <code>220px</code> minimum and image is <code>280px</code> high, max <code>300px</code>. Column gap is <code>clamp(24px, 4vw, 56px)</code>.</td><td>The biography card has <code>28px</code> padding and a <code>20px</code> radius. At <code>600px</code> and below, the columns stack and the image height becomes <code>260px</code>.</td></tr>
+                            <tr><td>Profile shortcut</td><td>Section height <code>80px</code>; side margin <code>clamp(24px, 8vw, 120px)</code>. Decorative bookmark art is <code>116 × 116px</code>.</td><td>The link itself fills the section. Edit <code>.profile-link-section</code> and <code>.profile-button</code>.</td></tr>
+                            <tr><td>My Works grid</td><td>Desktop: <code>2</code> equal columns; gap <code>clamp(16px, 2vw, 28px)</code>; card padding <code>clamp(24px, 2.5vw, 32px)</code>; radius <code>20px</code>.</td><td>Cards grow to fit their content; they do not have a fixed height. At <code>600px</code> and below the grid becomes one column with <code>24px</code> gap. The center decoration is hidden on phones.</td></tr>
+                            <tr><td>Project preview</td><td>Centered native dialog, width <code>min(760px, 100vw - 32px)</code>; max height <code>min(88vh, 760px)</code>; panel padding <code>clamp(24px, 5vw, 44px)</code>.</td><td>The dialog panel scrolls when content is taller than the viewport. The backdrop has an <code>8px</code> blur. Edit <code>.project-preview</code>, <code>.project-preview-panel</code>, and <code>::backdrop</code>.</td></tr>
+                            <tr><td>Gameplay slider</td><td>Media uses <code>16:9</code>; indicators are <code>8px</code> dots (active width <code>22px</code>); pause control is <code>30 × 30px</code>.</td><td>Creator cards are a two-column grid with <code>12px</code> gap; each card uses <code>13px</code> padding, <code>14px</code> corners, and a <code>46px</code> avatar. At <code>600px</code> and below the creator cards stack.</td></tr>
+                            <tr><td>Contact</td><td>Desktop columns <code>0.9fr / 1.1fr</code>; gap <code>clamp(32px, 7vw, 96px)</code>. Art height <code>clamp(320px, 38vw, 480px)</code>.</td><td>At <code>600px</code> and below it becomes one column with a <code>32px</code> gap. The image height is capped at <code>min(70vh, 420px)</code>.</td></tr>
+                            <tr><td>Footer</td><td><code>16px</code> top/bottom padding; background image repeated horizontally and sized to the footer height.</td><td>Edit <code>footer</code> in <a href="../CSS/style.css">CSS/style.css</a> and its text in <a href="../HTML/index.html">HTML/index.html</a>.</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <h3>Profile template: content and responsive layout</h3>
+                <div class="table-wrap">
+                    <table class="guide-table">
+                        <thead><tr><th>Part</th><th>Current CSS measurements</th><th>What to customize</th></tr></thead>
+                        <tbody>
+                            <tr><td>Page width</td><td><code>min(100%, 1440px)</code>; horizontal padding <code>clamp(24px, 8vw, 120px)</code>; top/bottom padding <code>40px / 80px</code>.</td><td>Change <code>.profile-main</code> in <a href="../CSS/profile.css">CSS/profile.css</a>.</td></tr>
+                            <tr><td>Profile hero</td><td>At most <code>68vh</code> or <code>640px</code> high; columns <code>1.2fr / 0.8fr</code>; gap <code>clamp(40px, 8vw, 96px)</code>.</td><td>Intro and buttons are in <code>.profile-hero-copy</code>; the portrait frame is a <code>4:5</code> ratio, max width <code>360px</code>, with <code>12px</code> inset padding.</td></tr>
+                            <tr><td>Content sections</td><td><code>24px</code> space above; <code>32px</code> padding; <code>20px</code> corners. Skills use four columns; projects use three; cards have <code>16px</code> gaps.</td><td>At <code>700px</code> and below the hero stacks and skill/project grids use two columns. At <code>420px</code> and below those grids use one column.</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <h3>Bunny Vault: gallery and dialogs</h3>
+                <div class="table-wrap">
+                    <table class="guide-table">
+                        <thead><tr><th>Part</th><th>Current CSS measurements</th><th>What to customize</th></tr></thead>
+                        <tbody>
+                            <tr><td>Top bar / content</td><td>Sticky top bar minimum <code>72px</code>; content width <code>min(100% - 40px, 1040px)</code>; vertical padding <code>clamp(44px, 8vw, 88px)</code> and <code>72px</code> below.</td><td>These live in <code>.vault-topbar</code> and <code>.vault-main</code> in <a href="../CSS/bunny.css">CSS/bunny.css</a>.</td></tr>
+                            <tr><td>Folder gallery</td><td>Auto-fill columns with cards around <code>190–220px</code>, gap <code>22px</code>; card max width <code>220px</code>; folder button minimum height <code>158px</code>; preview <code>148 × 94px</code>.</td><td>Grid automatically fits the available width. Adjust <code>.bunny-gallery</code>, <code>.folder-card</code>, and <code>.folder-preview</code>.</td></tr>
+                            <tr><td>Photo dialog</td><td>Width <code>min(100% - 32px, 1000px)</code>; max height <code>min(88vh, 900px)</code>; corners <code>20px</code>; backdrop blur <code>12px</code>.</td><td>Rename/delete dialogs are narrower, max <code>440px</code>. On phones the photo list and viewer toolbar change layout at <code>600px</code>.</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                <p class="small-note">Main-site breakpoints: <code>1000px</code> adjusts the project decoration, <code>600px</code> stacks homepage layouts, and <code>360px</code> narrows the logo. Profile breakpoints are <code>700px</code> and <code>420px</code>; Bunny Vault uses <code>600px</code>. Keep related rules near their existing media query rather than adding a second competing rule.</p>
+            </section>
+
+            <section class="guide-section" id="interaction-map">
+                <div class="section-head">
+                    <span class="section-number">7</span>
+                    <div>
+                        <h2>Interaction map: where the JavaScript fits</h2>
+                        <p class="lead">The scripts connect controls in the HTML to actions. Before changing one, identify the control's class or ID, then follow that selector in the matching script.</p>
+                    </div>
+                </div>
+
+                <div class="table-wrap">
+                    <table class="guide-table">
+                        <thead><tr><th>Page / feature</th><th>HTML hook</th><th>JavaScript behavior</th><th>Data or state to edit</th></tr></thead>
+                        <tbody>
+                            <tr><td>Home: font picker</td><td><code>.font-picker-toggle</code>, <code>#font-menu</code>, <code>[data-font]</code></td><td>Opens/closes a keyboard-friendly menu, applies the chosen CSS font variable, and saves the choice.</td><td><code>fontOptions</code> and storage key <code>gabztrt-site-font</code> in <a href="../JAVA/script.js">JAVA/script.js</a>. Add a matching font-face in <code>CSS/fonts.css</code> if needed.</td></tr>
+                            <tr><td>Home: project preview</td><td><code>.quickview-link</code> inside <code>.project-card</code>; <code>&lt;dialog class="project-preview"&gt;</code></td><td>One delegated click listener reads the card heading, finds its template, fills dialog text, opens the native modal, and plays the reverse close animation on close/Escape/backdrop click.</td><td><code>projectPreviewTemplates</code> in <code>JAVA/script.js</code>. Project heading and object key must match exactly. Animation duration is <code>680ms</code>.</td></tr>
+                            <tr><td>Home: gameplay slider</td><td><code>.gameplay-thumbnail</code>, <code>.gameplay-indicators</code>, <code>.gameplay-toggle</code></td><td>Updates one image and creator label; cycles every <code>5000ms</code>; dots select a slide. Pauses while hovered/focused, when the tab is hidden, when the preview closes, or for reduced-motion preference.</td><td><code>gameplayClips</code> array in <code>JAVA/script.js</code>: creator, alt text, GIF URL, source URL, and accent color. The GIFs are externally hosted.</td></tr>
+                            <tr><td>Home: navigation</td><td><code>.nav-links a</code> links to section IDs</td><td>Scrolls to matching sections, accounts for the fixed header, highlights the active link, and respects reduced-motion preference.</td><td>Keep each <code>href="#section-id"</code> paired with a unique matching HTML <code>id</code>.</td></tr>
+                            <tr><td>Home: card hover and reveals</td><td><code>.project-card</code> and selected headings/paragraphs</td><td>Uses Web Animations API for project-card hover; Intersection Observer reveals selected elements as they enter the viewport.</td><td>Visual values live in CSS; observed element selectors and motion logic live near the end of <code>JAVA/script.js</code>.</td></tr>
+                            <tr><td>Profile page</td><td>Semantic sections and in-page links</td><td>Currently a static HTML/CSS template; it does not load a dedicated JavaScript file.</td><td>Update content in <code>HTML/profile.html</code>, layout in <code>CSS/profile.css</code>.</td></tr>
+                            <tr><td>Bunny Vault: folders/photos</td><td><code>#folder-list</code>, file input, photo and action dialogs</td><td><code>JAVA/bunny.js</code> renders folders/photos, opens dialogs, uploads images, renames/deletes folders, previews photos, and zooms images.</td><td>Folder metadata and settings use IndexedDB. Images/folders are read or written in the user-selected ProjectPort directory using the browser File System Access API. The browser asks for permission.</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="two-column">
+                    <article class="mini-card">
+                        <h3>Trace an interaction safely</h3>
+                        <ol class="number-list">
+                            <li>Find the button/link in the page HTML and note its <code>class</code>, <code>id</code>, and accessible label.</li>
+                            <li>Search for that class or ID in the corresponding JavaScript file.</li>
+                            <li>Read the whole nearby handler and any helper it calls before editing.</li>
+                            <li>Keep the HTML hook and JavaScript selector in sync; test mouse, keyboard, open, and close states.</li>
+                        </ol>
+                    </article>
+                    <article class="mini-card">
+                        <h3>Keep data separate from behavior</h3>
+                        <p>The project preview copy is grouped in <code>projectPreviewTemplates</code>; slider content is grouped in <code>gameplayClips</code>. Edit the data object when only words, links, or colors change. Change the event-handler code only when the behavior itself needs to change.</p>
+                    </article>
+                </div>
+                <div class="callout warning">
+                    <strong>Bunny Vault data and backups</strong>
+                    IndexedDB stores folder/settings records and saved directory handles; uploaded images are written to the selected local folder. Clearing browser site data, moving the folder, or revoking permission can affect access. Back up the actual ProjectPort folder and important photos independently.
+                </div>
+            </section>
+
+            <section class="guide-section" id="alternatives">
+                <div class="section-head">
+                    <span class="section-number">8</span>
+                    <div>
+                        <h2>Alternatives and an easier way to build</h2>
+                        <p class="lead">Choose the simplest tool that fits the feature. ProjectPort is currently a static site, so most updates need only HTML, CSS, JavaScript, and a browser refresh—no framework or build command.</p>
+                    </div>
+                </div>
+
+                <div class="table-wrap">
+                    <table class="guide-table">
+                        <thead><tr><th>Decision</th><th>Current approach</th><th>Alternative</th><th>When to choose the alternative</th></tr></thead>
+                        <tbody>
+                            <tr><td>Page layout</td><td>CSS Grid for project/profile/card layouts; Flexbox for one-dimensional rows and controls.</td><td>Use Flexbox for everything, or fixed-position blocks.</td><td>Prefer Grid for rows and columns; Flexbox for a single row/column. Fixed positioning is best for overlays, not the normal page layout.</td></tr>
+                            <tr><td>Responsive sizing</td><td><code>rem</code>, percentages, viewport units, <code>min()</code>, and <code>clamp()</code> with breakpoints.</td><td>Hard-code pixel widths/heights everywhere.</td><td>Fixed pixels are useful for icons, borders, and deliberate minimums. Use flexible widths and <code>clamp()</code> for page gutters, type, and layouts that must adapt.</td></tr>
+                            <tr><td>Spacing</td><td>Existing padding, margin, and gaps are tuned per component.</td><td>Define a small spacing scale, such as <code>8 / 12 / 16 / 24 / 32px</code>, as CSS variables.</td><td>A scale is easier when redesigning many pages at once. For a small edit, adjust the existing component rule instead of introducing a new system.</td></tr>
+                            <tr><td>Project popups</td><td>Native <code>&lt;dialog&gt;</code> with <code>showModal()</code>, built-in modal behavior, and custom animation.</td><td>A hand-built <code>&lt;div&gt;</code> overlay.</td><td>Use a custom overlay only if the design needs behavior the native dialog cannot provide; then you must build focus management, Escape handling, background inertness, and accessibility yourself.</td></tr>
+                            <tr><td>Repeated project content</td><td>Semantic HTML cards plus a JavaScript template object keyed by project title.</td><td>Hard-code every popup's content in separate markup, or generate every card from JS.</td><td>Separate static markup is fine for a few unique pieces. A data array is easier for a long, repeated list. Avoid generating content with JS unless it is genuinely dynamic.</td></tr>
+                            <tr><td>Gameplay visuals</td><td>One externally hosted animated GIF at a time; it avoids embedding video players.</td><td>Static image, MP4/WebM video, or a video platform embed.</td><td>Use a static image for lowest bandwidth; a compressed MP4/WebM for longer clips and playback controls; an embed when platform playback/attribution matters. Animated GIFs can still be large and cannot offer normal video controls.</td></tr>
+                            <tr><td>Browser storage</td><td>LocalStorage for a tiny font preference; IndexedDB for Vault records; selected local folder for image files.</td><td>Keep everything only in memory, use downloadable files, or use a server/database.</td><td>Memory resets on refresh; download/export is simple for one-off data; a server is needed for accounts or cross-device syncing. Do not put secrets in frontend storage.</td></tr>
+                            <tr><td>Site architecture</td><td>Plain static HTML/CSS/JS pages.</td><td>Framework, component library, package manager, and build pipeline.</td><td>Stay static while pages are manageable and interactions are limited. Consider a framework only when shared components, data-driven screens, routing, or team scale make the extra setup worthwhile.</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <h3>A repeatable, low-friction build process</h3>
+                <ol class="steps">
+                    <li><div><strong>Write the page outline before styling.</strong><p>List the sections and the content each one needs. Use semantic HTML such as <code>header</code>, <code>nav</code>, <code>main</code>, <code>section</code>, <code>article</code>, and <code>footer</code>.</p></div></li>
+                    <li><div><strong>Build one representative component.</strong><p>Finish one project card, creator card, or profile card first. Then duplicate its HTML for similar content and keep the class names consistent.</p></div></li>
+                    <li><div><strong>Style from the outside inward.</strong><p>Set page width and section spacing first, then grid/flex layout, then card padding, typography, colors, borders, and decorative effects. Prefer editing the existing selector.</p></div></li>
+                    <li><div><strong>Make it flexible before polishing.</strong><p>Use Grid/Flexbox, <code>minmax(0, 1fr)</code>, <code>max-width</code>, and <code>clamp()</code>. Test at desktop, tablet, and phone widths; add a media query only when the layout actually needs to change.</p></div></li>
+                    <li><div><strong>Add behavior only after the control exists.</strong><p>Use real buttons for actions and links for navigation. Add one event listener or delegated handler, make its state visible, and provide keyboard and error states.</p></div></li>
+                    <li><div><strong>Test one change at a time.</strong><p>Save, refresh, test the exact feature, check the browser Console, then inspect the narrow layout. Review the Git diff before committing.</p></div></li>
+                </ol>
+
+                <div class="two-column">
+                    <article class="mini-card">
+                        <h3>Small habits that save time</h3>
+                        <ul class="check-list">
+                            <li>Use VS Code search (<kbd>Ctrl+Shift+F</kbd>) for a class, ID, or visible text.</li>
+                            <li>Keep repeated values in CSS custom properties when they genuinely share a purpose.</li>
+                            <li>Use descriptive image filenames, meaningful <code>alt</code> text, and paths relative to the file using them.</li>
+                            <li>Use browser DevTools' element inspector to test spacing before permanently editing CSS.</li>
+                            <li>Prefer one clear source of truth for repeated data; avoid copying the same JS logic into multiple handlers.</li>
+                            <li>Keep page content in HTML, visual rules in CSS, and interaction/data updates in JavaScript.</li>
+                        </ul>
+                    </article>
+                    <article class="mini-card">
+                        <h3>Learning and checking references</h3>
+                        <ul>
+                            <li><a href="https://developer.mozilla.org/en-US/docs/Learn_web_development/Core/Structuring_content" target="_blank" rel="noopener noreferrer">MDN: HTML structure and semantics</a></li>
+                            <li><a href="https://developer.mozilla.org/en-US/docs/Learn_web_development/Core/CSS_layout/Grids" target="_blank" rel="noopener noreferrer">MDN: CSS Grid</a></li>
+                            <li><a href="https://developer.mozilla.org/en-US/docs/Learn_web_development/Core/CSS_layout/Flexbox" target="_blank" rel="noopener noreferrer">MDN: Flexbox</a></li>
+                            <li><a href="https://developer.mozilla.org/en-US/docs/Web/CSS/clamp" target="_blank" rel="noopener noreferrer">MDN: responsive <code>clamp()</code></a></li>
+                            <li><a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/dialog" target="_blank" rel="noopener noreferrer">MDN: native HTML dialog</a></li>
+                            <li><a href="https://developer.mozilla.org/en-US/docs/Web/API/Intersection_Observer_API" target="_blank" rel="noopener noreferrer">MDN: Intersection Observer</a></li>
+                            <li><a href="https://validator.w3.org/nu/" target="_blank" rel="noopener noreferrer">W3C: HTML validator</a></li>
+                            <li><a href="https://docs.github.com/en/pages" target="_blank" rel="noopener noreferrer">GitHub Docs: GitHub Pages</a></li>
+                        </ul>
+                    </article>
+                </div>
+            </section>
+
+            <section class="guide-section" id="new-project">
+                <div class="section-head">
+                    <span class="section-number">9</span>
+                    <div>
+                        <h2>Add or rename a My Works project</h2>
+                        <p class="lead">A project card's title connects its HTML to its preview template in JavaScript. Keep the title exactly the same in both places.</p>
+                    </div>
+                </div>
+                <ol class="number-list">
+                    <li>In <code>HTML/index.html</code>, copy one existing <code>&lt;article class="project-card"&gt;</code> inside <code>.project-grid</code>.</li>
+                    <li>Change the card's <code>&lt;h3&gt;</code> title and short description.</li>
+                    <li>Give the eye button a matching accessible name, such as <code>aria-label="Preview Garden Planner"</code>.</li>
+                    <li>In <code>JAVA/script.js</code>, add a template under <code>projectPreviewTemplates</code> with the exact same title.</li>
+                    <li>Save both files, refresh the home page, and test that card's eye button and close actions.</li>
+                </ol>
+                <pre><code>&lt;article class="project-card"&gt;
+    &lt;h3&gt;Garden Planner&lt;/h3&gt;
+    &lt;p&gt;A short description of this project.&lt;/p&gt;
+    &lt;div class="project-links"&gt;
+        &lt;button class="quickview-link" type="button"
+                aria-label="Preview Garden Planner"&gt;
+            Preview
+        &lt;/button&gt;
+    &lt;/div&gt;
+&lt;/article&gt;</code></pre>
+                <pre><code>'Garden Planner': {
+    eyebrow: 'Planning & design',
+    description: 'Replace this with your project introduction.',
+    screenTitle: 'Garden Planner',
+    screenCopy: 'Add a preview image or short summary.',
+    sections: [
+        ['Overview', 'Add the project overview.'],
+        ['Features', 'Add the important features.'],
+        ['Details', 'Add tools, links, or results.']
+    ]
+}</code></pre>
+                <div class="callout">
+                    <strong>Title matching matters</strong>
+                    The script looks up a template by the card heading. If the heading says <code>Garden Planner</code> but the JavaScript key says <code>Garden planner</code>, it will not match. Keep capitalization and spacing identical.
+                </div>
+                <details>
+                    <summary>Edit the Game Enthusiast favorite-channel list</summary>
+                    <div class="details-body">
+                        <ul>
+                            <li>In <code>HTML/index.html</code>, find <code>.project-creators</code>. Each <code>.creator-card</code> is one channel.</li>
+                            <li>Change the avatar image's <code>src</code>, card heading, YouTube icon link's <code>href</code>, short description, and subscriber/date values in its <code>&lt;dl&gt;</code>.</li>
+                            <li>The subscriber values are rounded snapshots, not live data. The current set was checked November 14, 2026; update the displayed count and note when you refresh them.</li>
+                            <li>To add someone, duplicate one <code>.creator-card</code> and replace its details. The grid will arrange the new card automatically.</li>
+                            <li>To change a gameplay GIF, edit the <code>gameplayClips</code> list in <code>JAVA/script.js</code>. Each entry has a creator name, image description, GIF URL, Tenor source-page URL, and accent color. The carousel loads only the active GIF image; it does not create video players.</li>
+                            <li>The slider advances every five seconds. Its dots select a creator, and the pause button stops rotation. Rotation also pauses while the pointer or keyboard focus is on the slider, when the tab is hidden, and by default for visitors who prefer reduced motion.</li>
+                            <li>The section is shown only when the project title is exactly <code>Game Enthusiast</code>. If you rename that project, update the matching condition in <code>JAVA/script.js</code>.</li>
+                            <li>For visual changes, edit <code>.gameplay-slider</code> and <code>.creator-card</code> in <code>CSS/style.css</code>. Each creator card class has light/dark gradient colors and an emboss shadow you can adjust separately.</li>
+                        </ul>
+                    </div>
+                </details>
+            </section>
+
+            <section class="guide-section" id="assets">
+                <div class="section-head">
+                    <span class="section-number">10</span>
+                    <div>
+                        <h2>Replace pictures, backgrounds, and fonts</h2>
+                        <p class="lead">Put new files in the matching assets folder, then update the path where the image or font is used.</p>
+                    </div>
+                </div>
+                <div>
+                    <span class="tag">assets/bg</span>
+                    <span class="tag">assets/fonts</span>
+                    <span class="tag">assets/models</span>
+                    <span class="tag">assets/pictures</span>
+                    <span class="tag">assets/pictures/thumbnails</span>
+                </div>
+                <pre><code>&lt;img src="../assets/pictures/my-photo.jpg"
+     alt="A short description of the photo"&gt;</code></pre>
+                <p>HTML files are inside <code>HTML/</code>, so <code>../assets/</code> means “go up one folder, then into assets.” CSS files are inside <code>CSS/</code>, so their asset URLs also commonly start with <code>../assets/</code>.</p>
+                <ul class="check-list">
+                    <li>Use the actual file name, including its extension, such as <code>.jpg</code>, <code>.png</code>, <code>.svg</code>, or <code>.mp4</code>.</li>
+                    <li>Match capitalization exactly; web hosts may treat <code>Photo.jpg</code> and <code>photo.jpg</code> as different files.</li>
+                    <li>Write useful <code>alt</code> text for meaningful images. Use <code>alt=""</code> for purely decorative images.</li>
+                    <li>To add a new custom font, add its font-face definition in <code>CSS/fonts.css</code> and point it to the font file in <code>assets/fonts/</code>.</li>
+                </ul>
+            </section>
+
+            <section class="guide-section" id="test">
+                <div class="section-head">
+                    <span class="section-number">11</span>
+                    <div>
+                        <h2>Preview changes and fix common issues</h2>
+                        <p class="lead">This is a static HTML/CSS/JavaScript site. For ordinary text and style edits, save the files and refresh the page; no compile step is currently needed.</p>
+                    </div>
+                </div>
+                <ol class="steps">
+                    <li><div><strong>Open the page you changed.</strong><p>Home: <code>HTML/index.html</code>. Profile: <code>HTML/profile.html</code>. Bunny Vault: <code>HTML/bunny.html</code>.</p></div></li>
+                    <li><div><strong>Try the interaction you edited.</strong><p>Click the buttons, follow the links, and open/close dialogs. For layout edits, also test a narrow browser window.</p></div></li>
+                    <li><div><strong>Look for errors.</strong><p>In a desktop browser, press <kbd>F12</kbd> and select <b>Console</b> if a script stops working. A missing image usually means its path or spelling is wrong.</p></div></li>
+                    <li><div><strong>Refresh cached files if necessary.</strong><p>If an older style or script still appears, check the page's <code>?v=</code> number in its stylesheet/script link and increase it, then refresh again.</p></div></li>
+                </ol>
+                <details>
+                    <summary>Quick troubleshooting guide</summary>
+                    <div class="details-body">
+                        <ul>
+                            <li><b>Image is broken:</b> verify the exact file name and the relative path from the HTML/CSS file.</li>
+                            <li><b>CSS did not change:</b> check that you edited the stylesheet linked by that page, then refresh or increase its cache version.</li>
+                            <li><b>Button stopped working:</b> check the browser Console for spelling errors and make sure the element's class/ID matches the JavaScript selector.</li>
+                            <li><b>In-page link goes nowhere:</b> compare its <code>href="#..."</code> to the destination element's <code>id</code>.</li>
+                            <li><b>Vault cannot select a folder:</b> use a browser that supports the File System Access API and grant permission when prompted.</li>
+                        </ul>
+                    </div>
+                </details>
+                <div class="callout">
+                    <strong>Cache versions in this project</strong>
+                    The home page currently uses version numbers in its CSS and JavaScript links. When a browser keeps an old copy, increase the relevant <code>?v=</code> number in that page's HTML. This does not change the file name.
+                </div>
+            </section>
+
+            <section class="guide-section" id="github">
+                <div class="section-head">
+                    <span class="section-number">12</span>
+                    <div>
+                        <h2>Save your changes to the GitHub repository</h2>
+                        <p class="lead">Editing and saving changes your local files. A Git commit records a checkpoint; pushing sends committed work to GitHub.</p>
+                    </div>
+                </div>
+                <div class="flow" aria-label="GitHub update process">
+                    <div class="flow-step"><strong>Save</strong><span>Ctrl+S in VS Code</span></div>
+                    <div class="flow-step"><strong>Review</strong><span>Check the changed files</span></div>
+                    <div class="flow-step"><strong>Commit</strong><span>Name your checkpoint</span></div>
+                    <div class="flow-step"><strong>Push</strong><span>Send it to GitHub</span></div>
+                </div>
+                <details open>
+                    <summary>Option A: use VS Code Source Control</summary>
+                    <div class="details-body">
+                        <ol class="number-list">
+                            <li>Save your edits with <kbd>Ctrl+S</kbd>.</li>
+                            <li>Open Source Control from the left toolbar, or press <kbd>Ctrl+Shift+G</kbd>.</li>
+                            <li>Review the files listed under <b>Changes</b>. Click a file to inspect its diff before staging it.</li>
+                            <li>Stage only the files you intend to keep by clicking the <b>+</b> beside each file (or stage all after reviewing the list).</li>
+                            <li>Enter a short commit message, such as <code>Update project descriptions</code>, then select <b>Commit</b>.</li>
+                            <li>Select <b>Sync Changes</b> or <b>Push</b> to send the commit to GitHub. Sign in if VS Code asks.</li>
+                        </ol>
+                    </div>
+                </details>
+                <details>
+                    <summary>Option B: use Git in the VS Code terminal</summary>
+                    <div class="details-body">
+                        <p>Open <b>Terminal → New Terminal</b> in VS Code. The terminal must be inside the ProjectPort folder. These commands show the full manual path from your saved files to this repository's GitHub branch:</p>
+                        <pre><code>git status
+git branch --show-current
+git remote -v
+git diff
+git add -- "Guide\index.html" "HTML\index.html" "CSS\style.css" "JAVA\script.js"
+git diff --cached
+git commit -m "Update portfolio site and owner guide"
+git push origin master</code></pre>
+                        <ol class="number-list">
+                            <li><code>git status</code> lists changed and untracked files. Confirm the list contains only work you intend to publish.</li>
+                            <li><code>git branch --show-current</code> prints the branch name. This checkout currently uses <code>master</code>; substitute the printed name in the push command if yours differs.</li>
+                            <li><code>git remote -v</code> shows where <code>origin</code> points. Confirm it is <code>gabzofficial2723/gabztrt_hub</code> before pushing.</li>
+                            <li><code>git diff</code> reviews edits to already tracked files. New files appear as untracked in <code>git status</code>; they appear in the staged diff after you add them.</li>
+                            <li><code>git add -- ...</code> stages only the listed files. Replace the sample paths with the files you actually changed. To stage a different group, edit the path list—avoid staging unrelated work.</li>
+                            <li><code>git diff --cached</code> shows exactly what will go into the next commit. If anything is unexpected, unstage that file with <code>git restore --staged "path\to\file"</code>, edit the file, and review again.</li>
+                            <li><code>git commit -m "..."</code> saves a named checkpoint locally. <code>git push origin master</code> sends that branch's commits to GitHub.</li>
+                        </ol>
+                        <div class="callout">
+                            <strong>For your next update</strong>
+                            This repository already tracks <code>origin/master</code>, so after you edit, stage, and commit, <code>git push</code> is enough. Use <code>git push -u origin master</code> only when setting an upstream for a branch for the first time.
+                        </div>
+                        <details>
+                            <summary>Sync the latest GitHub version before editing</summary>
+                            <div class="details-body">
+                                <p>When your working tree is clean, run this before starting a new round of edits:</p>
+                                <pre><code>git status
+git pull --rebase origin master</code></pre>
+                                <p>This brings down the latest <code>master</code> commits and places your local commits on top. If Git reports conflicts, resolve the marked sections, save the files, run <code>git add -- "path\to\resolved-file"</code>, then continue with <code>git rebase --continue</code>. If you are unsure, stop and ask for help—do not use a force push to get around a conflict.</p>
+                            </div>
+                        </details>
+                        <p class="small-note">If Git says your name or email is not configured, set the name and the email associated with your GitHub account with <code>git config --global user.name "Your Name"</code> and <code>git config --global user.email "you@example.com"</code>. If authentication is requested, complete the GitHub sign-in prompt; never paste a password or access token into a source file or commit.</p>
+                    </div>
+                </details>
+                <div class="callout warning">
+                    <strong>Repository update is not always website publishing</strong>
+                    A successful push updates GitHub. The public website updates too only if hosting/deployment (for example GitHub Pages) is configured for this repository and branch.
+                </div>
+                <p>Repository: <a href="https://github.com/gabzofficial2723/gabztrt_hub" target="_blank" rel="noopener noreferrer">github.com/gabzofficial2723/gabztrt_hub</a></p>
+            </section>
+
+            <section class="guide-section" aria-labelledby="keep-it-safe">
+                <div class="section-head">
+                    <span class="section-number">✓</span>
+                    <div>
+                        <h2 id="keep-it-safe">A good habit before every update</h2>
+                    </div>
+                </div>
+                <ul class="check-list">
+                    <li>Make one small change at a time and save it.</li>
+                    <li>Preview the exact page and interaction you changed.</li>
+                    <li>Check <code>git status</code> and review the diff before committing.</li>
+                    <li>Do not put passwords, API keys, or private information in website files or commits.</li>
+                    <li>Keep a copy of important original images before replacing or deleting them.</li>
+                </ul>
+            </section>
+        </main>
+    </div>
+
+    <footer class="footer">
+        <p>Made for managing ProjectPort one clear edit at a time.</p>
+        <p><a href="../HTML/index.html">Return to the website</a> · <a href="#file-map">Back to the file map</a></p>
+    </footer>
+</body>
+</html>
